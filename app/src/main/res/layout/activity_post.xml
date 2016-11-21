@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_post"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.timsmith.responder.PostActivity">
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageSelect"
+        app:srcCompat="@mipmap/add_btn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/white" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Description"
+        android:ems="10"
+        android:layout_marginTop="20dp"
+        android:id="@+id/descField"
+        android:background="@drawable/input_outline"
+        android:layout_marginLeft="20dp"
+        android:padding="10dp"
+        android:layout_below="@+id/titleField"
+        android:layout_alignEnd="@+id/titleField" />
+
+    <Button
+        android:text="Submit Incident"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:id="@+id/submitBtn"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/descField"
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Incident Type"
+        android:ems="10"
+        android:id="@+id/titleField"
+        android:background="@drawable/input_outline"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
