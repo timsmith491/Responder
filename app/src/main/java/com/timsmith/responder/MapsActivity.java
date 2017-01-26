@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void onMapReady(GoogleMap map) {
         mMap = map;
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(Burnaby));
-        //map.animateCamera(CameraUpdateFactory.zoomIn());
+        map.animateCamera(CameraUpdateFactory.zoomIn());
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
 
 
@@ -87,9 +87,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         mMap.setMyLocationEnabled(true);
+
 
         map.animateCamera(zoom);
         // Add some markers to the map, and add a data object to each marker.

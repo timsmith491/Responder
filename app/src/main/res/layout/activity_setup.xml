@@ -11,32 +11,74 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.timsmith.responder.SetupActivity">
 
-    <ImageButton
-        android:layout_width="150dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/setupImageBtn"
-        android:background="@color/cardview_light_background"
-        android:scaleType="centerCrop"
-        android:layout_height="150dp" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_below="@+id/setupImageBtn"
+        android:background="@drawable/input_outline"
+        android:padding="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:id="@+id/setupNameField"
         android:hint="Enter Display Name" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:background="@drawable/input_outline"
+        android:padding="10dp"
+        android:layout_below="@+id/setupPhoneField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/setupDOBField"
+        android:hint="Enter Date of Birth"
+        android:focusable="false"/>
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:background="@drawable/input_outline"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/setupPhoneField"
+        android:hint="Enter Phone Number"
+        android:layout_below="@+id/setupNameField"
+        android:layout_alignParentStart="true" />
+
+    <!--<DatePicker-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/datePicker" />-->
+
+    <ImageButton
+        android:layout_width="150dp"
+        app:srcCompat="@mipmap/ic_person_white_48dp"
+        android:id="@+id/setupImageBtn"
+
+        android:background="@drawable/button_bg_rounded_corners"
+        android:scaleType="centerCrop"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <Button
         android:text="Finish Account Setup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:id="@+id/setupSubmitBtn"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/setupSubmitBtn" />
+        android:layout_alignParentStart="true"
+        android:textSize="18sp" />
+
+
 </RelativeLayout>

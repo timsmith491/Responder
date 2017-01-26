@@ -8,8 +8,14 @@
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_map"
-    android:title="Defibrillator Loctions"
-    app:showAsAction="never" />
+        android:title="Defibrillator Loctions"
+        app:showAsAction="never" />
+
+
+    <item android:id="@+id/action_video"
+        android:title="Training Video"
+        app:showAsAction="never" />
+
 
     <item android:id="@+id/action_settings"
         android:title="Settings"
@@ -18,5 +24,6 @@
     <item android:id="@+id/action_logout"
         android:title="Log Out"
         app:showAsAction="never" />
+
 
 </menu>

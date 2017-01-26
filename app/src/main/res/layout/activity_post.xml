@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.timsmith.responder.PostActivity">
+    tools:context="com.timsmith.responder.PostActivity"
+    android:padding="10dp">
 
     <ImageButton
         android:layout_width="match_parent"
@@ -14,8 +15,24 @@
         android:id="@+id/imageSelect"
         app:srcCompat="@mipmap/add_btn"
         android:layout_alignParentTop="true"
+        android:background="@android:color/white"
         android:layout_alignParentStart="true"
-        android:background="@android:color/white" />
+        android:scaleType="centerCrop" />
+
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:hint="Incident Type"-->
+        <!--android:ems="10"-->
+        <!--android:id="@+id/titleField"-->
+        <!--android:background="@drawable/input_outline"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <EditText
         android:layout_width="match_parent"
@@ -23,39 +40,63 @@
         android:inputType="textPersonName"
         android:hint="Description"
         android:ems="10"
-        android:layout_marginTop="20dp"
         android:id="@+id/descField"
         android:background="@drawable/input_outline"
         android:layout_marginLeft="20dp"
         android:padding="10dp"
-        android:layout_below="@+id/titleField"
-        android:layout_alignEnd="@+id/titleField" />
+        android:layout_below="@+id/spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/spinner"
+        android:spinnerMode="dialog"
+        android:layout_below="@+id/imageSelect"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:text="Submit Incident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:id="@+id/submitBtn"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/descField"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white" />
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/descField"
+        android:layout_marginBottom="20dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
+    <Button
+        android:text="Location"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Incident Type"
-        android:ems="10"
-        android:id="@+id/titleField"
-        android:background="@drawable/input_outline"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:layout_centerVertical="true"
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:id="@+id/locationButton"
+        android:layout_below="@+id/descField"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/locationButton"
+        android:layout_alignStart="@+id/spinner"
+        android:id="@+id/latitudeTextId" />
+
+    <TextView
+        android:text="Longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/locationButton"
+        android:layout_alignEnd="@+id/descField"
+        android:id="@+id/longitudeTextId" />
 
 
 </RelativeLayout>
