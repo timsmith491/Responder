@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_register"
     android:layout_width="match_parent"
@@ -18,7 +19,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/nameField"
-        android:hint="Name" />
+        android:background="@drawable/input_outline"
+        android:hint="Name"
+        android:padding="10dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -27,17 +30,11 @@
         android:ems="10"
         android:layout_below="@+id/nameField"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/emailField"
-        android:hint="Email" />
-
-    <Button
-        android:text="Sign Up"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passwordField"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/registerBtn" />
+        android:background="@drawable/input_outline"
+        android:hint="Email"
+        android:padding="10dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -46,7 +43,22 @@
         android:ems="10"
         android:id="@+id/passwordField"
         android:hint="Password"
+        android:background="@drawable/input_outline"
         android:layout_below="@+id/emailField"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:padding="10dp" />
+
+    <Button
+        android:text="Sign Up"
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:id="@+id/registerBtn"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
