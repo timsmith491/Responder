@@ -1,9 +1,11 @@
 package com.timsmith.responder;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by Tim on 30/10/2016.
  */
-
+@IgnoreExtraProperties  //Ignore here is added for lat long set in mapping
 public class Blog {
 
     private String title;

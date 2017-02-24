@@ -155,10 +155,6 @@ public class IncidentActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         //Allows the user who owns the incident to delete it
         mIncidentRemove.setOnClickListener(new View.OnClickListener() {
             @Override

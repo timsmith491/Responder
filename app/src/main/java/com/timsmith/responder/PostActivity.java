@@ -84,7 +84,7 @@ public class PostActivity extends AppCompatActivity implements
 
 
         mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = mAuth.getCurrentUser();//the user session
+        mCurrentUser = mAuth.getCurrentUser();
         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//gets the current user's id from the Users table
 
 
@@ -174,7 +174,7 @@ public class PostActivity extends AppCompatActivity implements
             Double lon = mLastLocation.getLongitude();
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
-            Toast.makeText(this, "BEMI WAS HERE", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Location Received", Toast.LENGTH_LONG).show();
         } else {
         }
     }
@@ -206,8 +206,8 @@ public class PostActivity extends AppCompatActivity implements
 
         //All fields must be populated
         if(!TextUtils.isEmpty(title_val) && !TextUtils.isEmpty(desc_val) && mImageUri != null){
-            mProgress.show();
 
+            mProgress.show();
 
             StorageReference filepath = mStorage.child("Incident Images").child(mImageUri.getLastPathSegment());
 
@@ -229,6 +229,7 @@ public class PostActivity extends AppCompatActivity implements
                             newPost.child("image").setValue((downloadUri.toString()));
                             newPost.child("latitude").setValue(latitude);
                             newPost.child("longitude").setValue(longitude);
+                            newPost.child("uid").setValue(mCurrentUser.getUid());
 
 //                            Map<String,Object> checkoutData=new HashMap<>();
 //                            checkoutData.put("time",ServerValue.TIMESTAMP);
@@ -236,10 +237,7 @@ public class PostActivity extends AppCompatActivity implements
 
                             //newPost.child("timestamp").setValue(time_stamp, ServerValue.TIMESTAMP);//Timestamp
 
-
-
-
-                            newPost.child("uid").setValue(mCurrentUser.getUid());//gets the current user//below uses the user id to get the username from the databse snapshot
+                            //gets the current user//below uses the user id to get the username from the databse snapshot
                             newPost.child("username").setValue(dataSnapshot.child("name").getValue())
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override

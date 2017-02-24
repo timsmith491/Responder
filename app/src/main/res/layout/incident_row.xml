@@ -14,9 +14,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/post_image"
             app:srcCompat="@mipmap/add_btn"
-            android:cropToPadding="false"
             android:scaleType="centerCrop"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:cropToPadding="true" />
 
         <TextView
             android:layout_width="match_parent"
@@ -68,15 +68,15 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/reaction_button"
-                    app:srcCompat="@mipmap/ic_error_outline_white_24dp"
+                    app:srcCompat="@mipmap/ic_error_outline_white_36dp"
                     android:cropToPadding="false"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:layout_margin="10dp"
                     android:background="@drawable/button_bg_rounded_corners"
-                    android:elevation="0dp" />
+                    android:elevation="0dp"
+                    android:layout_width="match_parent" />
 
 
 

@@ -17,11 +17,24 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
+import static java.lang.System.currentTimeMillis;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+
+
 
     private static final LatLng Burnaby = new LatLng(53.144116, -6.061681);
     private static final LatLng DannsPub = new LatLng(53.150062, -6.066326);
@@ -47,6 +60,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private Marker mSkatePark;
     private Marker mCharlselandGolfClub;
 
+    private DatabaseReference mDatabase;
+    private DatabaseReference mHazardDatabase;
+
+    public ArrayList<Marker> markerList = new ArrayList<>();
+
+
 
     private GoogleMap mMap;
     /**
@@ -66,6 +85,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+//        loadMarker();
+//        displayLocations();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Incidents");
+        mHazardDatabase = FirebaseDatabase.getInstance().getReference().child("Hazards");
+
     }
 
     /**
@@ -76,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mMap = map;
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(Burnaby));
         map.animateCamera(CameraUpdateFactory.zoomIn());
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(500);
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -90,10 +114,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             return;
         }
+
         mMap.setMyLocationEnabled(true);
 
-
         map.animateCamera(zoom);
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()));
         // Add some markers to the map, and add a data object to each marker.
         mBurnaby = mMap.addMarker(new MarkerOptions()
                 .position(Burnaby)
@@ -152,6 +177,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
+
+
+//        displayLocations();
+        showIncidents();
+        showHazards();
     }
 
     /**
@@ -194,6 +224,243 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
+
+//    public void loadMarker(){
+//
+//        mDatabaseLocations = FirebaseDatabase.getInstance().getReference().child("Incidents");
+//        mDatabaseLocations.keepSynced(true);
+//        mDatabaseLocations.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Iterable<DataSnapshot> dataSnapshots = dataSnapshot.getChildren();
+//                mMap.clear();
+//                for (DataSnapshot dataSnapshot1 : dataSnapshots){
+//                    Blog blog = dataSnapshot1.getValue(Blog.class);
+//
+//
+//                    Double latitude = Double.parseDouble(blog.getLatitudeText());
+//                    Double longitude = Double.parseDouble(blog.getLongitudeText());
+//                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
+//    private void displayLocations() {
+//
+//        //mapsrefrence.child("testlocation").addListenerForSingleValueEvent(new ValueEventListener() {
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        if(dataSnapshot.hasChildren()) {
+//                            @SuppressWarnings("unchecked")
+//
+//                            LatLngBounds bounds;
+//                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//
+//                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                                // TODO: handle the post
+//                    //Location model changed to blog
+//                                Blog blog = postSnapshot.getValue(Blog.class);
+//                                String slatitude = blog.getLatitudeText().toString();
+//                                String slongitude = blog.getLongitudeText().toString();
+//
+//
+//
+//                                System.out.print("The Latitude " + slatitude);
+//
+//                                Double latitude = Double.parseDouble(slatitude);
+//                                Double longitude = Double.parseDouble(slongitude);
+////                                Log.i(TAG, "lat"+latitude);
+//
+//                                // Create LatLng for each locations
+//                                LatLng mLatlng = new LatLng(latitude, longitude);
+//
+//                                // Make sure the map boundary contains the location
+//                                builder.include(mLatlng);
+//                                bounds = builder.build();
+//
+//                                // Add a marker for each logged location
+//                                MarkerOptions mMarkerOption = new MarkerOptions()
+//                                        .position(mLatlng)
+//                                        .title("Incidents")
+//                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.common_google_signin_btn_icon_light));
+//                                Marker mMarker = mMap.addMarker(mMarkerOption);
+//                                markerList.add(mMarker);////////////////////////////////////////////To check
+//
+//                                // Zoom map to the boundary that contains every logged location
+////                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
+////                                        MAP_ZOOM_LEVEL));
+//                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+//                            }
+//
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        //Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+//                    }
+//                });
+//    }
+
+    public void showHazards(){
+        mHazardDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.hasChildren()) {
+                    @SuppressWarnings("unchecked")
+
+                    LatLngBounds bounds;
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
+                    //Loops through all children
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        // Blog newBlog = postSnapshot.getValue(Blog.class);
+                        Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
+                        String latitude = (String) dataSnapshot.child("latitude").getValue();
+                        String longitude = (String) dataSnapshot.child("longitude").getValue();
+                        String title = (String) dataSnapshot.child("title").getValue();
+                        System.out.println("Hazards Latitude: " + latitude);
+                        System.out.println("Hazards Longitude: " + longitude);
+
+
+                        Double doubleLatitude = Double.parseDouble(latitude);
+                        Double doubleLongitude = Double.parseDouble(longitude);
+
+
+
+                        long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
+                        long timeStampNow = currentTimeMillis();//current timestamp
+
+                        double timePassed = (timeStampNow - dbTimeStamp) / 1000 / 60 / 60;
+                        System.out.print("Time passed result: " + timePassed);
+                        if(timePassed <= 1){
+
+//                        System.out.println("The time is " + timestamp );
+//                        int secondsInADay   =0*60*24;
+
+                        // Create LatLng for each locations
+                        LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
+//
+//                                // Make sure the map boundary contains the location
+                        builder.include(mLatlng);
+                        bounds = builder.build();
+//
+//                                // Add a marker for each logged location
+                        MarkerOptions mMarkerOption = new MarkerOptions()
+                                .position(mLatlng)
+                                .title(title);
+
+//                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
+                        Marker mMarker = mMap.addMarker(mMarkerOption);
+                        mMarker.showInfoWindow();//display the info of the marker
+                        markerList.add(mMarker);////////////////////////////////////////////To check
+//
+//                                // Zoom map to the boundary that contains every logged location
+//                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
+//                                        MAP_ZOOM_LEVEL));
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+                    }
+                }
+            }}
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void showIncidents(){
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.hasChildren()) {
+                            @SuppressWarnings("unchecked")
+
+                            LatLngBounds bounds;
+                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
+                            //Loops through all children
+                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                               // Blog newBlog = postSnapshot.getValue(Blog.class);
+                                String latitude = (String) dataSnapshot.child("latitude").getValue();
+                                String longitude = (String) dataSnapshot.child("longitude").getValue();
+                                System.out.println("Latitude: " + latitude);
+                                System.out.println("Longitude: " + longitude);
+
+                                Double dlatitude = Double.parseDouble(latitude);
+                                Double dlongitude = Double.parseDouble(longitude);
+                                // Create LatLng for each locations
+                                LatLng mLatlng = new LatLng(dlatitude, dlongitude);
+//
+//                                // Make sure the map boundary contains the location
+                                builder.include(mLatlng);
+                                bounds = builder.build();
+//
+//                                // Add a marker for each logged location
+                                MarkerOptions mMarkerOption = new MarkerOptions()
+                                        .position(mLatlng)
+                                        .title("Incident")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
+                                Marker mMarker = mMap.addMarker(mMarkerOption);
+                                markerList.add(mMarker);////////////////////////////////////////////To check
+//
+//                                // Zoom map to the boundary that contains every logged location
+//                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
+//                                        MAP_ZOOM_LEVEL));
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
+                            }
+                }
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
 
     @Override
     public void onStart() {

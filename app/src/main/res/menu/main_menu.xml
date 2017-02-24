@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_add"
-        android:icon="@mipmap/ic_add_white_24dp"
+        android:icon="@mipmap/sos"
+        android:background="@drawable/button_bg_rounded_corners"
         android:title="Add Post"
         app:showAsAction="always"/>
+
+    <item android:id="@+id/action_allUser"
+        android:title="Users"
+        app:showAsAction="never" />
 
     <item android:id="@+id/action_map"
         android:title="Defibrillator Loctions"
@@ -27,3 +32,4 @@
 
 
 </menu>
+    <!--android:icon="@mipmap/ic_add_white_24dp"-->
