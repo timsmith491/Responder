@@ -35,7 +35,7 @@ import static java.lang.System.currentTimeMillis;
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
 
-
+    //Pins showing all defibs in greystones
     private static final LatLng Burnaby = new LatLng(53.144116, -6.061681);
     private static final LatLng DannsPub = new LatLng(53.150062, -6.066326);
     private static final LatLng TheatreLane = new LatLng(53.144301, -6.064360);
@@ -63,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private DatabaseReference mDatabase;
     private DatabaseReference mHazardDatabase;
 
+    //Arraylist holds all the markers of incidents and hazards
     public ArrayList<Marker> markerList = new ArrayList<>();
 
 
@@ -87,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 //        loadMarker();
 //        displayLocations();
+
+        //Connects to the databases
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Incidents");
         mHazardDatabase = FirebaseDatabase.getInstance().getReference().child("Hazards");
 
