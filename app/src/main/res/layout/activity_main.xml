@@ -8,7 +8,6 @@
     tools:context="com.timsmith.responder.MainActivity">
 
 
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +26,26 @@
         android:id="@+id/floatHazard"
         android:clickable="true"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="Add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_geofences_button"
+            android:onClick="addGeofencesButtonHandler"/>
+
+        <Button
+            android:text="Remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove_geofences_button"
+            android:onClick="removeGeofencesButtonHandler"
+            />
+    </GridLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 
 <!--</RelativeLayout>-->
 <!--<android.support.design.widget.CoordinatorLayout-->

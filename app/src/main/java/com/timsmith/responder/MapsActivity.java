@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static com.timsmith.responder.R.id.map;
 import static java.lang.System.currentTimeMillis;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
@@ -47,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private static final LatLng GreystonesTennisClub = new LatLng(53.132663, -6.069814);
     private static final LatLng SkatePark = new LatLng(53.121336, -6.065016);
     private static final LatLng CharlselandGolfClub = new LatLng(53.130687, -6.055709);
+    private static final String TAG = MapsActivity.class.getSimpleName();
 
     private Marker mBurnaby;
     private Marker mDannsPub;
@@ -81,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         setContentView(R.layout.activity_maps);
 
         SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFragment.getMapAsync(this);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -254,65 +256,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        });
 //    }
 
-//    private void displayLocations() {
-//
-//        //mapsrefrence.child("testlocation").addListenerForSingleValueEvent(new ValueEventListener() {
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        if(dataSnapshot.hasChildren()) {
-//                            @SuppressWarnings("unchecked")
-//
-//                            LatLngBounds bounds;
-//                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//
-//                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                                // TODO: handle the post
-//                    //Location model changed to blog
-//                                Blog blog = postSnapshot.getValue(Blog.class);
-//                                String slatitude = blog.getLatitudeText().toString();
-//                                String slongitude = blog.getLongitudeText().toString();
-//
-//
-//
-//                                System.out.print("The Latitude " + slatitude);
-//
-//                                Double latitude = Double.parseDouble(slatitude);
-//                                Double longitude = Double.parseDouble(slongitude);
-////                                Log.i(TAG, "lat"+latitude);
-//
-//                                // Create LatLng for each locations
-//                                LatLng mLatlng = new LatLng(latitude, longitude);
-//
-//                                // Make sure the map boundary contains the location
-//                                builder.include(mLatlng);
-//                                bounds = builder.build();
-//
-//                                // Add a marker for each logged location
-//                                MarkerOptions mMarkerOption = new MarkerOptions()
-//                                        .position(mLatlng)
-//                                        .title("Incidents")
-//                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.common_google_signin_btn_icon_light));
-//                                Marker mMarker = mMap.addMarker(mMarkerOption);
-//                                markerList.add(mMarker);////////////////////////////////////////////To check
-//
-//                                // Zoom map to the boundary that contains every logged location
-////                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
-////                                        MAP_ZOOM_LEVEL));
-//                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        //Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-//                    }
-//                });
-//    }
+
 
     public void showHazards(){
         mHazardDatabase.addChildEventListener(new ChildEventListener() {
@@ -354,11 +298,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         // Create LatLng for each locations
                         LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
 //
-//                                // Make sure the map boundary contains the location
+//                      // Make sure the map boundary contains the location
                         builder.include(mLatlng);
                         bounds = builder.build();
 //
-//                                // Add a marker for each logged location
+//                      // Add a marker for each logged location
                         MarkerOptions mMarkerOption = new MarkerOptions()
                                 .position(mLatlng)
                                 .title(title);
@@ -432,6 +376,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                         .title("Incident")
                                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
                                 Marker mMarker = mMap.addMarker(mMarkerOption);
+
+//                                createGeofence(mLatlng, 100);
+
+
+
                                 markerList.add(mMarker);////////////////////////////////////////////To check
 //
 //                                // Zoom map to the boundary that contains every logged location
@@ -463,6 +412,57 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         });
     }
 
+    //////////////////////////////              GEOFENCE              ///////////////////////////////////////////////////////////////
+
+
+
+//    private static final long GEO_DURATION = 60 * 60 * 1000;
+//    private static final String GEOFENCE_REQ_ID = "My Geofence";
+//    private static final float GEOFENCE_RADIUS = 500.0f; // in meters
+//
+//    // Create a Geofence
+//    private Geofence createGeofence(LatLng latLng, float radius ) {
+//        Log.d(TAG, "createGeofence");
+//        return new Geofence.Builder()
+//                .setRequestId(GEOFENCE_REQ_ID)
+//                .setCircularRegion( latLng.latitude, latLng.longitude, radius)
+//                .setExpirationDuration( GEO_DURATION )
+//                .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
+//                        | Geofence.GEOFENCE_TRANSITION_EXIT )
+//                .build();
+//    }
+//
+//    //Geofence Request
+//    private GeofencingRequest createGeofenceRequest( Geofence geofence ) {
+//        Log.d(TAG, "createGeofenceRequest");
+//        return new GeofencingRequest.Builder()
+//                .setInitialTrigger( GeofencingRequest.INITIAL_TRIGGER_ENTER )
+//                .addGeofence( geofence )
+//                .build();
+//    }
+//
+//    private PendingIntent geoFencePendingIntent;
+//    private final int GEOFENCE_REQ_CODE = 0;
+//    private PendingIntent createGeofencePendingIntent() {
+//        Log.d(TAG, "createGeofencePendingIntent");
+//        if ( geoFencePendingIntent != null )
+//            return geoFencePendingIntent;
+//
+//        Intent intent = new Intent( this, GeofenceTrasitionService.class);
+//        return PendingIntent.getService(
+//                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+//    }
+//
+//    // Add the created GeofenceRequest to the device's monitoring list
+//    private void addGeofence(GeofencingRequest request) {
+//        Log.d(TAG, "addGeofence");
+//        if (checkPermission())
+//            LocationServices.GeofencingApi.addGeofences(
+//                    client,
+//                    request,
+//                    createGeofencePendingIntent()
+//            ).setResultCallback(this);
+//    }
 
 
     @Override
