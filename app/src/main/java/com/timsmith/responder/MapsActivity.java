@@ -2,10 +2,12 @@ package com.timsmith.responder;
 
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -18,6 +20,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -30,6 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_LANDMARKS;
+import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_RADIUS_IN_METERS;
 import static com.timsmith.responder.R.id.map;
 import static java.lang.System.currentTimeMillis;
 
@@ -67,7 +73,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     //Arraylist holds all the markers of incidents and hazards
     public ArrayList<Marker> markerList = new ArrayList<>();
-
 
 
     private GoogleMap mMap;
@@ -257,8 +262,26 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //    }
 
 
+    private Marker mHazardMarker;
+    // Draw Geofence circle on GoogleMap
+    private Circle geoFenceLimits;
 
-    public void showHazards(){
+    private void drawGeofence() {
+        Log.d(TAG, "drawGeofence()");
+
+        if (geoFenceLimits != null)
+            geoFenceLimits.remove();
+
+        CircleOptions circleOptions = new CircleOptions()
+                .center(mHazardMarker.getPosition())
+                .strokeColor(Color.argb(50, 70, 70, 70))
+                .fillColor(Color.argb(100, 150, 150, 150))
+                .radius(GEOFENCE_RADIUS_IN_METERS);
+        geoFenceLimits = mMap.addCircle(circleOptions);
+    }
+
+
+    public void showHazards() {
         mHazardDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -270,7 +293,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
                     //Loops through all children
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         // Blog newBlog = postSnapshot.getValue(Blog.class);
                         Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
                         String latitude = (String) dataSnapshot.child("latitude").getValue();
@@ -284,41 +307,50 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         Double doubleLongitude = Double.parseDouble(longitude);
 
 
-
                         long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
                         long timeStampNow = currentTimeMillis();//current timestamp
 
                         double timePassed = (timeStampNow - dbTimeStamp) / 1000 / 60 / 60;
                         System.out.print("Time passed result: " + timePassed);
-                        if(timePassed <= 1){
 
-//                        System.out.println("The time is " + timestamp );
-//                        int secondsInADay   =0*60*24;
-
-                        // Create LatLng for each locations
-                        LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
+                        if (timePassed <= 1) {
+                            // Create LatLng for each locations
+                            LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
 //
 //                      // Make sure the map boundary contains the location
-                        builder.include(mLatlng);
-                        bounds = builder.build();
+                            builder.include(mLatlng);
+                            bounds = builder.build();
 //
 //                      // Add a marker for each logged location
-                        MarkerOptions mMarkerOption = new MarkerOptions()
-                                .position(mLatlng)
-                                .title(title);
+                            MarkerOptions mMarkerOption = new MarkerOptions()
+                                    .position(mLatlng)
+                                    .title(title);
+
+                            mMap.addCircle(new CircleOptions()
+                                    .center(new LatLng(doubleLatitude, doubleLongitude))
+                                    .radius(GEOFENCE_RADIUS_IN_METERS)
+                                    .strokeColor(Color.BLACK)
+                                    .strokeWidth(2)
+                                    .fillColor(0x5500ff00));
+
 
 //                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
-                        Marker mMarker = mMap.addMarker(mMarkerOption);
-                        mMarker.showInfoWindow();//display the info of the marker
-                        markerList.add(mMarker);////////////////////////////////////////////To check
-//
+                            Marker mMarker = mMap.addMarker(mMarkerOption);
+                            mMarker.showInfoWindow();//display the info of the marker
+                            markerList.add(mMarker);////////////////////////////////////////////To check
+
+                            // Adds hazard location to the geofence Hashmap
+                            GEOFENCE_LANDMARKS.put("Hazard", new LatLng(doubleLatitude, doubleLongitude));
+                            System.out.print(GEOFENCE_LANDMARKS + "Hazard geofence");
+//                            MainActivity.populateGeofenceList();
 //                                // Zoom map to the boundary that contains every logged location
 //                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
 //                                        MAP_ZOOM_LEVEL));
 //                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+                        }
                     }
                 }
-            }}
+            }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -342,54 +374,54 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         });
     }
 
-    public void showIncidents(){
+    public void showIncidents() {
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.hasChildren()) {
-                            @SuppressWarnings("unchecked")
+                    @SuppressWarnings("unchecked")
 
-                            LatLngBounds bounds;
-                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    LatLngBounds bounds;
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
 
-                            //Loops through all children
-                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                               // Blog newBlog = postSnapshot.getValue(Blog.class);
-                                String latitude = (String) dataSnapshot.child("latitude").getValue();
-                                String longitude = (String) dataSnapshot.child("longitude").getValue();
-                                System.out.println("Latitude: " + latitude);
-                                System.out.println("Longitude: " + longitude);
+                    //Loops through all children
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        // Blog newBlog = postSnapshot.getValue(Blog.class);
+                        String latitude = (String) dataSnapshot.child("latitude").getValue();
+                        String longitude = (String) dataSnapshot.child("longitude").getValue();
+                        System.out.println("Latitude: " + latitude);
+                        System.out.println("Longitude: " + longitude);
 
-                                Double dlatitude = Double.parseDouble(latitude);
-                                Double dlongitude = Double.parseDouble(longitude);
-                                // Create LatLng for each locations
-                                LatLng mLatlng = new LatLng(dlatitude, dlongitude);
+                        Double dlatitude = Double.parseDouble(latitude);
+                        Double dlongitude = Double.parseDouble(longitude);
+                        // Create LatLng for each locations
+                        LatLng mLatlng = new LatLng(dlatitude, dlongitude);
 //
 //                                // Make sure the map boundary contains the location
-                                builder.include(mLatlng);
-                                bounds = builder.build();
+                        builder.include(mLatlng);
+                        bounds = builder.build();
 //
 //                                // Add a marker for each logged location
-                                MarkerOptions mMarkerOption = new MarkerOptions()
-                                        .position(mLatlng)
-                                        .title("Incident")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
-                                Marker mMarker = mMap.addMarker(mMarkerOption);
+                        MarkerOptions mMarkerOption = new MarkerOptions()
+                                .position(mLatlng)
+                                .title("Incident")
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
+                        Marker mMarker = mMap.addMarker(mMarkerOption);
 
 //                                createGeofence(mLatlng, 100);
 
 
-
-                                markerList.add(mMarker);////////////////////////////////////////////To check
+                        markerList.add(mMarker);////////////////////////////////////////////To check
 //
 //                                // Zoom map to the boundary that contains every logged location
 //                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
 //                                        MAP_ZOOM_LEVEL));
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
-                            }
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
+                    }
                 }
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -413,7 +445,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     //////////////////////////////              GEOFENCE              ///////////////////////////////////////////////////////////////
-
 
 
 //    private static final long GEO_DURATION = 60 * 60 * 1000;

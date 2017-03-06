@@ -36,23 +36,25 @@ public final class Constants {
     /**
      * Map for storing information about airports in the San Francisco bay area.
      */
-    public static final HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
+    public static final HashMap<String, LatLng> GEOFENCE_LANDMARKS = new HashMap<String, LatLng>();
     static {
         // San Francisco International Airport.
-        BAY_AREA_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
+        GEOFENCE_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
 
         // Googleplex.
-        BAY_AREA_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
+        GEOFENCE_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
 
         //Aungier Street
-        BAY_AREA_LANDMARKS.put("DIT", new LatLng(53.338546, -6.267569));
+        GEOFENCE_LANDMARKS.put("DIT", new LatLng(53.338546, -6.267569));
 
         //Donnybrook
-        BAY_AREA_LANDMARKS.put("DONNYBROOK", new LatLng(53.320146, -6.233773));
+        GEOFENCE_LANDMARKS.put("DONNYBROOK", new LatLng(53.320146, -6.233773));
 
-        BAY_AREA_LANDMARKS.put("HOME", new LatLng(53.112951, -6.091830));
+        GEOFENCE_LANDMARKS.put("DIT Aungier Street", new LatLng(53.338561, -6.267645));
 
-        BAY_AREA_LANDMARKS.put("Huntsbury", new LatLng(53.113279, -6.082924));
+        GEOFENCE_LANDMARKS.put("HOME", new LatLng(53.112951, -6.091830));
+
+        GEOFENCE_LANDMARKS.put("Huntsbury", new LatLng(53.113279, -6.082924));
 
     }
 }

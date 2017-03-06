@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * the user's location.
      */
     public void populateGeofenceList() {
-        for (Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
+        for (Map.Entry<String, LatLng> entry : Constants.GEOFENCE_LANDMARKS.entrySet()) {
 
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this
@@ -686,6 +686,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         if (item.getItemId() == R.id.action_allUser) {
             startActivity(new Intent(MainActivity.this, ListUserActivity.class));
+        }
+        if (item.getItemId() == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
 
 

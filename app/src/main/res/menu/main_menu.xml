@@ -13,8 +13,9 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/action_map"
-        android:title="Defibrillator Loctions"
-        app:showAsAction="never" />
+        android:icon="@mipmap/ic_map_white_24dp"
+        android:title="Map"
+        app:showAsAction="always"/>
 
 
     <item android:id="@+id/action_video"
