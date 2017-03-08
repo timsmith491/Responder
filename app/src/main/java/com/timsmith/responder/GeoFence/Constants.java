@@ -33,24 +33,15 @@ public final class Constants {
     //    public static final float GEOFENCE_RADIUS_IN_METERS = 1609; // 1 mile, 1.6 km
     public static final float GEOFENCE_RADIUS_IN_METERS = 200; // 1 mile, 1.6 km
 
-    /**
-     * Map for storing information about airports in the San Francisco bay area.
-     */
+    //Hash map for holding hazards and incidents along with some sample data
     public static final HashMap<String, LatLng> GEOFENCE_LANDMARKS = new HashMap<String, LatLng>();
     static {
-        // San Francisco International Airport.
-        GEOFENCE_LANDMARKS.put("SFO", new LatLng(37.621313, -122.378955));
 
-        // Googleplex.
-        GEOFENCE_LANDMARKS.put("GOOGLE", new LatLng(37.422611,-122.0840577));
-
-        //Aungier Street
-        GEOFENCE_LANDMARKS.put("DIT", new LatLng(53.338546, -6.267569));
 
         //Donnybrook
         GEOFENCE_LANDMARKS.put("DONNYBROOK", new LatLng(53.320146, -6.233773));
 
-        GEOFENCE_LANDMARKS.put("DIT Aungier Street", new LatLng(53.338561, -6.267645));
+//        GEOFENCE_LANDMARKS.put("DIT Aungier Street", new LatLng(53.338561, -6.267645));
 
         GEOFENCE_LANDMARKS.put("HOME", new LatLng(53.112951, -6.091830));
 

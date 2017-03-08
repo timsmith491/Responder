@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +58,7 @@ import com.timsmith.responder.GeoFence.GeofenceTransitionsIntentService;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_LANDMARKS;
 import static java.lang.System.currentTimeMillis;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -68,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private DatabaseReference mDatabase;
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mDatabaseReactions;
-    private DatabaseReference mDatabaseHazard;
-
+    private DatabaseReference mHazardDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mCurrentUser;//stores the current user
@@ -160,10 +161,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Incidents");
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseReactions = FirebaseDatabase.getInstance().getReference().child("Reactions");
+        mHazardDatabase = FirebaseDatabase.getInstance().getReference().child("Hazards");
 
         mDatabaseReactions.keepSynced(true);
         mDatabaseUsers.keepSynced(true);
         mDatabase.keepSynced(true);
+        mHazardDatabase.keepSynced(true);
 
         mBlogList = (RecyclerView) findViewById(R.id.incident_list);
 
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mBlogList.setLayoutManager(layoutManager);
 
 
+        showHazards();
         hazardFunction();
         checkUserExist();
 
@@ -191,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+
         setButtonsEnabledState();
 
         // Get the geofences used. Geofence data is hard coded in this sample.
@@ -329,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * the user's location.
      */
     public void populateGeofenceList() {
-        for (Map.Entry<String, LatLng> entry : Constants.GEOFENCE_LANDMARKS.entrySet()) {
+        for (Map.Entry<String, LatLng> entry : GEOFENCE_LANDMARKS.entrySet()) {
 
             mGeofenceList.add(new Geofence.Builder()
                     // Set the request ID of the geofence. This is a string to identify this
@@ -474,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void hazardFunction(){
 
         //Gets the location of the Hazards table
-        mDatabaseHazard = FirebaseDatabase.getInstance().getReference().child("Hazards");
+//        mDatabaseHazard = FirebaseDatabase.getInstance().getReference().child("Hazards");
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();//Current user that is logged in
         mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
@@ -510,17 +515,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                                final Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 //                                final Long timeStamp = new Firebase.
 
-                                final DatabaseReference newHazard = mDatabaseHazard.push();
+                                final DatabaseReference newHazard = mHazardDatabase.push();
                                 mDatabaseUser.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                        newHazard.child("title").setValue(title);
-                                        newHazard.child("latitude").setValue(mLatitudeText);
-                                        newHazard.child("longitude").setValue(mLongitudeText);
-                                        newHazard.child("uid").setValue(mCurrentUser.getUid());
+                                        mHazardDatabase.child("title").setValue(title);
+                                        mHazardDatabase.child("latitude").setValue(mLatitudeText);
+                                        mHazardDatabase.child("longitude").setValue(mLongitudeText);
+                                        mHazardDatabase.child("uid").setValue(mCurrentUser.getUid());
                                         //gets the current user//below uses the user id to get the username from the databse snapshot
-                                        newHazard.child("username").setValue(dataSnapshot.child("name").getValue())
+                                        mHazardDatabase.child("username").setValue(dataSnapshot.child("name").getValue())
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
@@ -529,8 +534,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                                         }
                                                     }
                                                 });
-                                        newHazard.child("timestamp").setValue(timeStamp);
+                                        mHazardDatabase.child("timestamp").setValue(timeStamp);
                                         Snackbar.make(v, "Hazard Logged", Snackbar.LENGTH_LONG).setAction("Action", null).setDuration(3500).show();
+                                        showHazards();
                                     }
 
                                     @Override
@@ -538,7 +544,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                                     }
                                 });
-
                             }
                         })
 
@@ -583,8 +588,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             });
         }
     }
-
-
 
 
     public static class BlogViewHolder extends RecyclerView.ViewHolder {
@@ -797,4 +800,71 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // permissions this app might request
         }
     }/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void showHazards() {
+        mHazardDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.hasChildren()) {
+
+                    //Loops through all children
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        // Blog newBlog = postSnapshot.getValue(Blog.class);
+                        //Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
+                        String latitude = (String) dataSnapshot.child("latitude").getValue();
+                        String longitude = (String) dataSnapshot.child("longitude").getValue();
+//                        String title = (String) dataSnapshot.child("title").getValue();
+                        System.out.println("Main class Hazards Latitude Error: " + latitude);
+                        System.out.println("Main class Hazards Longitude Error: " + longitude);
+
+                        Double doubleLatitude = Double.parseDouble(latitude);
+                        Double doubleLongitude = Double.parseDouble(longitude);
+
+
+//                        long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
+//                        long timeStampNow = currentTimeMillis();//current timestamp
+//
+//                        double timePassed = (timeStampNow - dbTimeStamp) / 1000 / 60 / 60;
+//                        System.out.print("Time passed result: " + timePassed);
+//
+//                        if (timePassed <= 1) {
+//                            // Create LatLng for each locations
+//                            LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
+//
+//
+//
+//                            // Adds hazard location to the geofence Hashmap
+                            GEOFENCE_LANDMARKS.put("Hazard", new LatLng(doubleLatitude, doubleLongitude));
+                            System.out.println(GEOFENCE_LANDMARKS.toString() + "Hazard geofence");
+//                            MainActivity.populateGeofenceList();
+////                                // Zoom map to the boundary that contains every logged location
+////                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
+////                                        MAP_ZOOM_LEVEL));
+////                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+//                        }
+                    }
+                }
+                populateGeofenceList();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

@@ -34,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_LANDMARKS;
 import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_RADIUS_IN_METERS;
 import static com.timsmith.responder.R.id.map;
 import static java.lang.System.currentTimeMillis;
@@ -303,6 +302,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         System.out.println("Hazards Longitude: " + longitude);
 
 
+
                         Double doubleLatitude = Double.parseDouble(latitude);
                         Double doubleLongitude = Double.parseDouble(longitude);
 
@@ -331,8 +331,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                     .radius(GEOFENCE_RADIUS_IN_METERS)
                                     .strokeColor(Color.BLACK)
                                     .strokeWidth(2)
-                                    .fillColor(0x5500ff00));
-
+                                    .fillColor(0x10EF4E49));
 
 //                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
                             Marker mMarker = mMap.addMarker(mMarkerOption);
@@ -340,8 +339,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                             markerList.add(mMarker);////////////////////////////////////////////To check
 
                             // Adds hazard location to the geofence Hashmap
-                            GEOFENCE_LANDMARKS.put("Hazard", new LatLng(doubleLatitude, doubleLongitude));
-                            System.out.print(GEOFENCE_LANDMARKS + "Hazard geofence");
+//                            GEOFENCE_LANDMARKS.put("Hazard", new LatLng(doubleLatitude, doubleLongitude));
+//                            System.out.println(GEOFENCE_LANDMARKS.toString() + "Hazard geofence");
 //                            MainActivity.populateGeofenceList();
 //                                // Zoom map to the boundary that contains every logged location
 //                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
