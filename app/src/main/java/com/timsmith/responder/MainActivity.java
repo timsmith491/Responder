@@ -506,26 +506,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 alertDialogBuilder.setCancelable(false)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-//                                resultText.setText("Hello, " + editText.getText());
                                 final String title = editText.getText().toString().trim();
-//                                final Long timeStamp = SystemClock.uptimeMillis();
                                 final long timeStamp = currentTimeMillis();
 
-//                                final Long timestamp = new Timestamp(System.currentTimeMillis());
-//                                final Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-//                                final Long timeStamp = new Firebase.
-
+                                //to stop crash remove this line and add mHazardDatabase in front of all children
                                 final DatabaseReference newHazard = mHazardDatabase.push();
+
                                 mDatabaseUser.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                        mHazardDatabase.child("title").setValue(title);
-                                        mHazardDatabase.child("latitude").setValue(mLatitudeText);
-                                        mHazardDatabase.child("longitude").setValue(mLongitudeText);
-                                        mHazardDatabase.child("uid").setValue(mCurrentUser.getUid());
+                                        newHazard.child("title").setValue(title);
+                                        newHazard.child("latitude").setValue(mLatitudeText);
+                                        newHazard.child("longitude").setValue(mLongitudeText);
+                                        newHazard.child("uid").setValue(mCurrentUser.getUid());
                                         //gets the current user//below uses the user id to get the username from the databse snapshot
-                                        mHazardDatabase.child("username").setValue(dataSnapshot.child("name").getValue())
+                                        newHazard.child("username").setValue(dataSnapshot.child("name").getValue())
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
@@ -534,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                                         }
                                                     }
                                                 });
-                                        mHazardDatabase.child("timestamp").setValue(timeStamp);
+                                        newHazard.child("timestamp").setValue(timeStamp);
                                         Snackbar.make(v, "Hazard Logged", Snackbar.LENGTH_LONG).setAction("Action", null).setDuration(3500).show();
                                         showHazards();
                                     }

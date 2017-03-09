@@ -90,7 +90,7 @@ public class IncidentActivity extends AppCompatActivity {
                 mIncidentLocation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Uri gmmIntentUri = Uri.parse("google.navigation:q=Taronga+Zoo,+Sydney+Australia");
+//
                         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + incidentLatitude + "," + incidentLongitude + "&mode=b");
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
