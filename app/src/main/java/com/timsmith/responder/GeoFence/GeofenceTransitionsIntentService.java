@@ -143,9 +143,11 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
                         R.drawable.quantum_ic_play_arrow_grey600_48))
                 .setColor(Color.RED)
+
                 .setContentTitle(notificationDetails)
                 .setContentText(getString(R.string.geofence_transition_notification_text))
-                .setContentIntent(notificationPendingIntent);
+                .setContentIntent(notificationPendingIntent)
+                .setLights(Color.CYAN, 1000, 500);
 
         // Dismiss notification once the user touches it.
         builder.setAutoCancel(true);
@@ -156,7 +158,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
         // Issue the notification
         mNotificationManager.notify(0, builder.build());
+
     }
+
 
     /**
      * Maps geofence transition types to their human-readable equivalents.
