@@ -54,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import com.timsmith.responder.GeoFence.Constants;
 import com.timsmith.responder.GeoFence.GeofenceErrorMessages;
 import com.timsmith.responder.GeoFence.GeofenceTransitionsIntentService;
+import com.timsmith.responder.weather.WeatherActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -687,6 +688,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        }
+        if (item.getItemId() == R.id.action_weather) {
+            startActivity(new Intent(MainActivity.this, WeatherActivity.class));
         }
 
 

@@ -17,6 +17,10 @@
         android:title="Map"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/action_weather"
+        android:title="Weather"
+        app:showAsAction="never" />
+
 
     <item android:id="@+id/action_video"
         android:title="Training Video"
