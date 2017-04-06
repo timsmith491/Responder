@@ -52,18 +52,21 @@ public class DownloadTask extends AsyncTask<String, Void, String>{
         try {
             JSONObject jsonObject = new JSONObject(result);
 
-            //String weatherInfo  = jsonObject.getString("weather");
+
             JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
 
             double temperature = Double.parseDouble(weatherData.getString("temp"));
-            //int tempInteger = (int) (temperature * 1.8-459.67);
             int tempInteger = (int) (temperature - 273.15);
+
+//            JSONObject weatherConditions = new JSONObject(jsonObject.getString("weather"));
+//            String conditions = weatherConditions.getString("description");
 
             String placeName = jsonObject.getString("name");
             final String DEGREE  = "\u00b0";
 
-            WeatherActivity.temperatureTextView.setText(String.valueOf(tempInteger) + (DEGREE));
+            WeatherActivity.temperatureTextView.setText(String.valueOf(tempInteger) + (DEGREE) + "C");
             WeatherActivity.placeTextView.setText(placeName);
+//            WeatherActivity.conditionsTextView.setText(conditions);
 
 
 //            JSONArray jsonArray = new JSONArray(weatherInfo);

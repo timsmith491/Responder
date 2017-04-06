@@ -21,6 +21,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     static TextView placeTextView;
     static TextView temperatureTextView;
+    static TextView conditionsTextView;
 
 
     @Override
@@ -33,6 +34,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         placeTextView = (TextView) findViewById(R.id.nameTempTextView);
         temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
+        conditionsTextView = (TextView) findViewById(R.id.conditionsTextView);
 
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -56,6 +58,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         DownloadTask downloadTask = new DownloadTask();
         downloadTask.execute("http://api.openweathermap.org/data/2.5/weather?lat=" + String.valueOf(lat) + "&lon=" + String.valueOf(lng) + "&appid=3005cf675fab9a6d926161cb64c0171f");
+//        downloadTask.execute("http://api.openweathermap.org/data/2.5/forecast?lat=" + String.valueOf(lat) + "&lon=" + String.valueOf(lng) + "&appid=3005cf675fab9a6d926161cb64c0171f");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
