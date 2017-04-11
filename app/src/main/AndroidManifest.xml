@@ -89,7 +89,8 @@
         <activity
             android:name=".weather.WeatherActivity"
             android:label="@string/title_activity_weather"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".chat.ChatGroups"></activity>
     </application>
 
 </manifest>

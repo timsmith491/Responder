@@ -21,6 +21,10 @@
         android:title="Weather"
         app:showAsAction="never" />
 
+    <item android:id="@+id/action_chat"
+        android:title="Chat"
+        app:showAsAction="never" />
+
 
     <item android:id="@+id/action_video"
         android:title="Training Video"
