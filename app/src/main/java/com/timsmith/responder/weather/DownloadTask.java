@@ -51,8 +51,6 @@ public class DownloadTask extends AsyncTask<String, Void, String>{
 
         try {
             JSONObject jsonObject = new JSONObject(result);
-
-
             JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
 
             double temperature = Double.parseDouble(weatherData.getString("temp"));
@@ -64,7 +62,7 @@ public class DownloadTask extends AsyncTask<String, Void, String>{
             String placeName = jsonObject.getString("name");
             final String DEGREE  = "\u00b0";
 
-            WeatherActivity.temperatureTextView.setText(String.valueOf(tempInteger) + (DEGREE) + "C");
+            WeatherActivity.temperatureTextView.setText(String.valueOf(tempInteger) + (DEGREE) + "c");
             WeatherActivity.placeTextView.setText(placeName);
 //            WeatherActivity.conditionsTextView.setText(conditions);
 
