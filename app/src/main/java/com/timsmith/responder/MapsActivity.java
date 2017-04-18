@@ -286,13 +286,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.hasChildren()) {
                     @SuppressWarnings("unchecked")
-
                     LatLngBounds bounds;
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
 
                     //Loops through all children
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot p : dataSnapshot.getChildren()) {
                         // Blog newBlog = postSnapshot.getValue(Blog.class);
                         Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
                         String latitude = (String) dataSnapshot.child("latitude").getValue();

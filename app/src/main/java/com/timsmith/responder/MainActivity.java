@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
 
+        mSharedPreferences = getSharedPreferences("com.timsmith.responder", MODE_PRIVATE);/////////////
+
         setButtonsEnabledState();
 
         // Get the geofences used. Geofence data is hard coded in this sample.
@@ -484,7 +486,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //        mDatabaseHazard = FirebaseDatabase.getInstance().getReference().child("Hazards");
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();//Current user that is logged in
-        mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+
+//        if (mSharedPreferences.getBoolean("firstrun", true)) {
+            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+//            mSharedPreferences.edit().putBoolean("firstrun", false).commit();
+//        }
 
 
         mHazardButton = (FloatingActionButton) findViewById(R.id.floatHazard);
@@ -513,6 +519,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                                 //to stop crash remove this line and add mHazardDatabase in front of all children
                                 final DatabaseReference newHazard = mHazardDatabase.push();
+//                                newHazard = mHazardDatabase.push();
 
                                 mDatabaseUser.addValueEventListener(new ValueEventListener() {
                                     @Override
@@ -521,13 +528,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                         newHazard.child("latitude").setValue(mLatitudeText);
                                         newHazard.child("longitude").setValue(mLongitudeText);
                                         newHazard.child("uid").setValue(mCurrentUser.getUid());
-                                        //gets the current user//below uses the user id to get the username from the databse snapshot
+                                        //gets the current user//below uses the user id to get the username from the database snapshot
                                         newHazard.child("username").setValue(dataSnapshot.child("name").getValue())
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
-                                                           // startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                                                            showHazards();
+                                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
                                                         }
                                                     }
                                                 });
@@ -543,7 +551,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 });
                             }
                         })
-
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -810,17 +817,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 if (dataSnapshot.hasChildren()) {
 
                     //Loops through all children
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot p : dataSnapshot.getChildren()) {
                         // Blog newBlog = postSnapshot.getValue(Blog.class);
                         //Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
-                        String latitude = (String) dataSnapshot.child("latitude").getValue();
-                        String longitude = (String) dataSnapshot.child("longitude").getValue();
+                        if(dataSnapshot.child("latitude").getValue()!=null) {
+                            String latitude = (String) dataSnapshot.child("latitude").getValue();
+                            String longitude = (String) dataSnapshot.child("longitude").getValue();
 //                        String title = (String) dataSnapshot.child("title").getValue();
-                        System.out.println("Main class Hazards Latitude Error: " + latitude);
-                        System.out.println("Main class Hazards Longitude Error: " + longitude);
+                            System.out.println("Main class Hazards Latitude Error: " + latitude);
+                            System.out.println("Main class Hazards Longitude Error: " + longitude);
 
-                        Double doubleLatitude = Double.parseDouble(latitude);
-                        Double doubleLongitude = Double.parseDouble(longitude);
+                            Double doubleLatitude = Double.parseDouble(latitude);
+                            Double doubleLongitude = Double.parseDouble(longitude);
 
 
 //                        long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
@@ -844,10 +852,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 ////                                        MAP_ZOOM_LEVEL));
 ////                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
 //                        }
+//                        }
                     }
                 }
                 populateGeofenceList();
-            }
+            }}
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {

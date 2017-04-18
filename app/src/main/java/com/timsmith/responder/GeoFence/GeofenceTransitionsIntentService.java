@@ -116,6 +116,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * Posts a notification in the notification bar when a transition is detected.
      * If the user clicks the notification, control goes to the MainActivity.
      */
+
+
     private void sendNotification(String notificationDetails) {
         // Create an explicit content Intent that starts the main Activity.
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -178,4 +180,34 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 return getString(R.string.unknown_geofence_transition);
         }
     }
+
+//    private TextToSpeech myTTS;   // Define the TTS objecy
+//    private int MY_DATA_CHECK_CODE = 0;
+//
+//    //write the following code in oncreate method or whereever you want to use this
+//    {
+//        myTTS = new TextToSpeech(this, this);
+//
+//        Intent checkTTSIntent = new Intent();
+//        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+//        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+//        speakWords("Pass the String here");
+//    }
+//
+//    private void speakWords(String speech) {
+//        //speak straight away
+//        //myTTS.setLanguage(Locale.US);
+//        System.out.println(speech + " TTSTTTS");
+//        myTTS.speak(speech, TextToSpeech.LANG_COUNTRY_AVAILABLE, null);
+//    }
+//
+//    public void onInit(int status) {
+//        // TODO Auto-generated method stub
+//        if (status == TextToSpeech.SUCCESS) {
+//            if(myTTS.isLanguageAvailable(Locale.US)==TextToSpeech.LANG_AVAILABLE)
+//                myTTS.setLanguage(Locale.US);
+//        } else if (status == TextToSpeech.ERROR) {
+//            Toast.makeText(getApplicationContext(), "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+//        }
+//    }
 }
