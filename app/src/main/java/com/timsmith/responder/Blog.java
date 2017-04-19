@@ -15,7 +15,7 @@ public class Blog {
     private String uid;//unused
     private Long timestamp;
     //private HashMap<String, Object> dateCreated;
-    private String phoneNumber;
+    private String phone;
     private String latitudeText;
     private String longitudeText;
 
@@ -25,13 +25,14 @@ public class Blog {
 
     }
 
-    public Blog(String title, String desc, String image, Long timestamp, String latitudeText, String longitudeText) {
+    public Blog(String title, String desc, String image, Long timestamp, String latitudeText, String longitudeText, String phone) {
         this.title = title;
         this.desc = desc;
         this.image = image;
         this.timestamp = timestamp;
         this.latitudeText = latitudeText;
         this.longitudeText = longitudeText;
+        this.phone = phone;
 
         this.username = username;
         this.uid = uid;
@@ -87,12 +88,12 @@ public class Blog {
     }
 
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getLatitudeText() {

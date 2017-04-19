@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private FloatingActionButton mHazardButton;
     private boolean mReactionService = false;
 
+    private static final int PERMISSION_SEND_SMS = 1;
+    private String phoneNumberSMS;
+    private String usernameSMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -398,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(final BlogViewHolder viewHolder, Blog model, final int position) {
+            protected void populateViewHolder(final BlogViewHolder viewHolder, final Blog model, final int position) {
                 final String incidentKey = getRef(position).getKey();
 
                 viewHolder.setTitle(model.getTitle());
@@ -407,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 viewHolder.setImage(getApplicationContext(), model.getImage());
                 //viewHolder.setTimestamp(model.getTimestamp());
                 viewHolder.setReactionButton(incidentKey);
-
+                model.getPhone();
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -423,20 +427,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     @Override
                     public void onClick(View v) {
                         confirmDialogDemo();
+//                        sendSMS();
+//                        sendLongSMS("Name is responding");
                         mReactionService = true;
 
                         final DatabaseReference newPost = mDatabaseReactions.push();
+
 
                         mDatabaseReactions.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (mReactionService) {
+                                    phoneNumberSMS = model.getPhone();
+                                    usernameSMS = model.getUsername();
                                     //below checks to see if the user has clicked responding to the incident
                                     if (dataSnapshot.child(incidentKey).hasChild(mAuth.getCurrentUser().getUid())) {
+
 
                                         //Removes the user from responding and sets reactionService to false
                                         mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).removeValue();
                                         mReactionService = false;
+                                        sendLongSMS(usernameSMS + " is NOT responding. Their phone number is: " + phoneNumberSMS + " REPLACE phone && username uid");
 
                                     } else {
 
@@ -452,6 +463,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                                                });
                                         mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).setValue("UserResponding");
                                         mReactionService = false;
+
+
+//                                      viewHolder.setPhone(model.getPhone());
+
+                                        sendLongSMS(usernameSMS + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
+
                                     }
                                 }
                             }
@@ -534,7 +551,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
-//                                                            showHazards();
                                                             startActivity(new Intent(MainActivity.this, MainActivity.class));
                                                         }
                                                     }
@@ -653,6 +669,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             });
         }
+//        public void setPhone(String phone) {
+//            TextView post_phone = (TextView) mView.findViewById(R.id.post_phone);
+//            post_phone.setText(phone);
+//        }
 
 
 //        public void setTimestamp(Long timestamp){
@@ -730,6 +750,49 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Log.d(TAG, msg);
         Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
+//    protected void sendSMS() {
+//        Log.i("Send SMS", "");
+//        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+//
+//        smsIntent.setData(Uri.parse("smsto:"));
+//        smsIntent.setType("vnd.android-dir/mms-sms");
+//        smsIntent.putExtra("address"  , new String ("0872491681"));
+//        smsIntent.putExtra("sms_body"  , "Test ");
+//
+//        try {
+//            startActivity(smsIntent);
+//            finish();
+//            Log.i("Finished sending SMS...", "");
+//        } catch (android.content.ActivityNotFoundException ex) {
+//            Toast.makeText(MainActivity.this,
+//                    "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+    private void sendLongSMS(String messag) {
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.SEND_SMS)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.SEND_SMS},
+//                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+//            }
+//        }
+//        String phoneNumber = "+353872491681"; // like this +911234567890
+        String phoneNumber = phoneNumberSMS;//"+countrycode_mobilenumber"; // like this +911234567890
+        String message = messag; // up to 160 characters
+
+        SmsManager smsManager = SmsManager.getDefault();
+        ArrayList<String> parts = smsManager.divideMessage(message);
+        smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
+
+    }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private Location mLastLocation;

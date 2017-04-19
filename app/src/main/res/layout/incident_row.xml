@@ -34,6 +34,14 @@
             android:text="Post Desc Here"
             android:padding="15dp" />
 
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/post_desc"-->
+            <!--android:id="@+id/post_phone"-->
+            <!--android:text="Phone Here"-->
+            <!--android:padding="15dp" />-->
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
