@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mBlogList.setLayoutManager(layoutManager);
 
 
+
         showHazards();
         hazardFunction();
         checkUserExist();
@@ -386,6 +387,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -431,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                        sendLongSMS("Name is responding");
                         mReactionService = true;
 
+
                         final DatabaseReference newPost = mDatabaseReactions.push();
 
 
@@ -465,8 +468,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                         mReactionService = false;
 
 
-//                                      viewHolder.setPhone(model.getPhone());
+//                                        String name =  dataSnapshot.child(mCurrentUser.getUid()).child("name").getValue().toString();//Gets current users UID
+//
+//                                        String displayName = mAuth.getCurrentUser().getDisplayName();
 
+
+//                                        sendLongSMS(displayName + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
                                         sendLongSMS(usernameSMS + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
 
                                     }
@@ -506,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 //        if (mSharedPreferences.getBoolean("firstrun", true)) {
             mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
-//            mSharedPreferences.edit().putBoolean("firstrun", false).commit();
+//             mSharedPreferences.edit().putBoolean("firstrun", false).commit();
 //        }
 
 
