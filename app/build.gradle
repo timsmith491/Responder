@@ -50,6 +50,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:support-vector-drawable:24.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.firebase:geofire-android:2.1.1'
 
     testCompile 'junit:junit:4.12'
 }

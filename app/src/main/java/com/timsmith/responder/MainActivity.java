@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mBlogList = (RecyclerView) findViewById(R.id.incident_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
+        layoutManager.setReverseLayout(true);//
         layoutManager.setStackFromEnd(true);
 
         mBlogList.setHasFixedSize(true);
@@ -397,11 +397,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mAuth.addAuthStateListener(mAuthListener);//sets the authentication listener on
 
+//        double distance = GeoUtils.distance(getLatitudeText(), userLoc.getLongitude(), eventLatitude, eventLongitude);
+//        event.setDistanceInMeters(distance);
+
         FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
                 Blog.class,
                 R.layout.incident_row,
                 BlogViewHolder.class,
-                mDatabase
+                mDatabase.orderByChild("title").equalTo("Medical")
         ) {
             @Override
             protected void populateViewHolder(final BlogViewHolder viewHolder, final Blog model, final int position) {
