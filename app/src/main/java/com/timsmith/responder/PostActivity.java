@@ -3,6 +3,8 @@ package com.timsmith.responder;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,8 +40,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.timsmith.responder.R.id.spinner;
 
@@ -54,7 +58,7 @@ public class PostActivity extends AppCompatActivity implements
     private Uri mImageUri = null;
     private ProgressDialog mProgress;
     private Spinner mSpinTitle;
-    private Button mLocationButton;
+    private TextView mLocationTextView;
 
 
     private FirebaseAuth mAuth;
@@ -97,7 +101,7 @@ public class PostActivity extends AppCompatActivity implements
         mSpinTitle = (Spinner) findViewById(R.id.spinner);
         mLatitudeText = (TextView) findViewById(R.id.latitudeTextId);
         mLongitudeText = (TextView) findViewById(R.id.longitudeTextId);
-
+        mLocationTextView = (TextView) findViewById(R.id.locationText);
 
         //mLocationButton = (Button) findViewById(R.id.locationButton);
 
@@ -172,9 +176,25 @@ public class PostActivity extends AppCompatActivity implements
         if (mLastLocation != null) {
             Double lat = mLastLocation.getLatitude();
             Double lon = mLastLocation.getLongitude();
+
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(lat, lon, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String cityName = addresses.get(0).getAddressLine(1);
+
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+
+            mLocationTextView.setText(cityName);
+
             Toast.makeText(this, "Location Received", Toast.LENGTH_LONG).show();
+
         } else {
         }
     }
@@ -202,6 +222,7 @@ public class PostActivity extends AppCompatActivity implements
         final String title_val = mSpinTitle.getSelectedItem().toString().trim();
         final String latitude = mLatitudeText.getText().toString().trim();
         final String longitude = mLongitudeText.getText().toString().trim();
+        final String cityName = mLocationTextView.getText().toString().trim();
         //Spinner item to be set as the title
 
         //All fields must be populated
@@ -229,6 +250,7 @@ public class PostActivity extends AppCompatActivity implements
                             newPost.child("image").setValue((downloadUri.toString()));
                             newPost.child("latitude").setValue(latitude);
                             newPost.child("longitude").setValue(longitude);
+                            newPost.child("location").setValue(cityName);
                             newPost.child("uid").setValue(mCurrentUser.getUid());
 
 //                            Map<String,Object> checkoutData=new HashMap<>();

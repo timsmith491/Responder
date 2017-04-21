@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     // Buttons for kicking off the process of adding or removing geofences.
     private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
+    private Button mLocationButton;
 
 
     private static final String TAG = "MainActivity";
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         showHazards();
         hazardFunction();
+        locationAreaSetter();
         checkUserExist();
 
         mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
@@ -397,14 +399,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mAuth.addAuthStateListener(mAuthListener);//sets the authentication listener on
 
+
+        Blog blog = null;//need to initialize
+
+//        double distance = GeoUtils.distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Double.parseDouble(blog.getLatitudeText()), Double.parseDouble(blog.getLongitudeText()));
+//        blog.setDistance(distance);
 //        double distance = GeoUtils.distance(getLatitudeText(), userLoc.getLongitude(), eventLatitude, eventLongitude);
 //        event.setDistanceInMeters(distance);
+//        private final List<Blog> blogList = new ArrayList<>();
+
+//
+//        Collections.sort(eventsList, new Comparator<Event>() {
+//            @Override
+//            public int compare(Eventt1, Eventt2) {
+//                return Double.valueOf(t1.getDistanceInMeters()).compareTo(t2.getDistanceInMeters());
+//            }
+//        });
+        String locationQuery= "Dublin";
 
         FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
                 Blog.class,
                 R.layout.incident_row,
                 BlogViewHolder.class,
-                mDatabase.orderByChild("title").equalTo("Medical")
+                mDatabase.orderByChild("location").equalTo(locationQuery)
         ) {
             @Override
             protected void populateViewHolder(final BlogViewHolder viewHolder, final Blog model, final int position) {
@@ -414,6 +431,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setUsername((model.getUsername()));
                 viewHolder.setImage(getApplicationContext(), model.getImage());
+                viewHolder.setLocation(model.getLocation());
                 //viewHolder.setTimestamp(model.getTimestamp());
                 viewHolder.setReactionButton(incidentKey);
                 model.getPhone();
@@ -505,6 +523,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                    }
 //                });
         mBlogList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    public void locationAreaSetter(){
+        mLocationButton = (Button) findViewById(R.id.select_location);
+        mLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+                View promptView = layoutInflater.inflate(R.layout.hazard_dialog, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setView(promptView);
+
+                AlertDialog alert = alertDialogBuilder.create();
+                alert.show();
+            }
+        });
+
     }
 
     public void hazardFunction(){
@@ -679,10 +714,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             });
         }
-//        public void setPhone(String phone) {
-//            TextView post_phone = (TextView) mView.findViewById(R.id.post_phone);
-//            post_phone.setText(phone);
-//        }
+        public void setLocation(String location) {
+            TextView locationText = (TextView) mView.findViewById(R.id.locationText);
+            locationText.setText(location);
+        }
 
 
 //        public void setTimestamp(Long timestamp){

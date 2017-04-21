@@ -51,24 +51,40 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <TextView
-            android:layout_width="171dp"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:id="@+id/post_username"
-            android:padding="15dp"
-            android:textSize="14dp" />
 
-        <TextView
-            android:text="Time Stamp"
-            android:layout_toRightOf="@id/post_username"
-            android:id="@+id/time_stamp"
-            android:textStyle="normal|bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewEnd"
-            android:padding="15dp"
-            android:textAllCaps="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:id="@+id/locationText"
+                android:padding="15dp"
+                android:textSize="14dp"
+                android:textStyle="normal|bold" />
+
+
+        </GridLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="171dp"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:id="@+id/post_username"
+                android:padding="15dp"
+                android:textSize="14dp"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:text="Time Stamp"
+                android:layout_toRightOf="@id/post_username"
+                android:id="@+id/time_stamp"
+                android:textStyle="normal|bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:padding="15dp"
+                android:textAllCaps="true" />
         </GridLayout>
         <LinearLayout
                 android:orientation="horizontal"

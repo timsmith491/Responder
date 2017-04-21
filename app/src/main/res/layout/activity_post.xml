@@ -71,22 +71,24 @@
         android:layout_alignStart="@+id/descField"
         android:layout_marginBottom="20dp"/>
 
-    <Button
+    <TextView
         android:text="Location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_bg_rounded_corners"
         android:textColor="@android:color/white"
         android:layout_marginTop="20dp"
-        android:id="@+id/locationButton"
+        android:id="@+id/locationText"
         android:layout_below="@+id/descField"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:padding="10dp" />
 
     <TextView
         android:text="Latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/locationButton"
+        android:layout_alignTop="@+id/locationText"
         android:layout_alignStart="@+id/spinner"
         android:id="@+id/latitudeTextId" />
 
@@ -94,7 +96,7 @@
         android:text="Longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/locationButton"
+        android:layout_alignTop="@+id/locationText"
         android:layout_alignEnd="@+id/descField"
         android:id="@+id/longitudeTextId" />
 

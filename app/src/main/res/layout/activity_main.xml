@@ -43,6 +43,12 @@
             android:id="@+id/remove_geofences_button"
             android:onClick="removeGeofencesButtonHandler"
             />
+        <Button
+            android:text="Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_location"
+            />
     </GridLayout>
 
 </android.support.design.widget.CoordinatorLayout>

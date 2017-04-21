@@ -18,6 +18,7 @@ public class Blog {
     private String phone;
     private String latitudeText;
     private String longitudeText;
+    private String location;
 
 
 
@@ -25,7 +26,7 @@ public class Blog {
 
     }
 
-    public Blog(String title, String desc, String image, Long timestamp, String latitudeText, String longitudeText, String phone) {
+    public Blog(String title, String desc, String image, Long timestamp, String latitudeText, String longitudeText, String phone, String location) {
         this.title = title;
         this.desc = desc;
         this.image = image;
@@ -33,6 +34,7 @@ public class Blog {
         this.latitudeText = latitudeText;
         this.longitudeText = longitudeText;
         this.phone = phone;
+        this.location = location;
 
         this.username = username;
         this.uid = uid;
@@ -110,5 +112,13 @@ public class Blog {
 
     public void setLongitudeText(String longitudeText) {
         this.longitudeText = longitudeText;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
