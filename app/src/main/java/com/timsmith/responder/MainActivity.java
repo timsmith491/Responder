@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private String phoneNumberSMS;
     private String usernameSMS;
 
+    //Sets the incident search parameter
+//    private String locationQuery= "Dublin";
+    private String locationQuery;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -415,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                return Double.valueOf(t1.getDistanceInMeters()).compareTo(t2.getDistanceInMeters());
 //            }
 //        });
-        String locationQuery= "Dublin";
+
 
         FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
                 Blog.class,
@@ -531,9 +535,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(View v) {
                 LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
-                View promptView = layoutInflater.inflate(R.layout.hazard_dialog, null);
+                View promptView = layoutInflater.inflate(R.layout.filter_incidents_dialog, null);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 alertDialogBuilder.setView(promptView);
+
+                final EditText locationFilterText = (EditText) promptView.findViewById(R.id.locationFilterText);
+
+                alertDialogBuilder.setCancelable(false)
+                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                locationQuery = locationFilterText.getText().toString().trim();
+//                                final String locationFilter = locationFilterText.getText().toString().trim();
+                                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                              //  protected void onStart();
+
+
+                            }
+                        })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
 
                 AlertDialog alert = alertDialogBuilder.create();
                 alert.show();
