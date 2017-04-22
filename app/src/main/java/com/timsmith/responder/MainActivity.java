@@ -404,22 +404,135 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mAuth.addAuthStateListener(mAuthListener);//sets the authentication listener on
 
 
-        Blog blog = null;//need to initialize
-
-//        double distance = GeoUtils.distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Double.parseDouble(blog.getLatitudeText()), Double.parseDouble(blog.getLongitudeText()));
-//        blog.setDistance(distance);
-//        double distance = GeoUtils.distance(getLatitudeText(), userLoc.getLongitude(), eventLatitude, eventLongitude);
-//        event.setDistanceInMeters(distance);
-//        private final List<Blog> blogList = new ArrayList<>();
-
+//        Blog blog = null;//need to initialize
 //
-//        Collections.sort(eventsList, new Comparator<Event>() {
+////        double distance = GeoUtils.distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(), Double.parseDouble(blog.getLatitudeText()), Double.parseDouble(blog.getLongitudeText()));
+////        blog.setDistance(distance);
+////        double distance = GeoUtils.distance(getLatitudeText(), userLoc.getLongitude(), eventLatitude, eventLongitude);
+////        event.setDistanceInMeters(distance);
+////        private final List<Blog> blogList = new ArrayList<>();
+//
+////
+////        Collections.sort(eventsList, new Comparator<Event>() {
+////            @Override
+////            public int compare(Eventt1, Eventt2) {
+////                return Double.valueOf(t1.getDistanceInMeters()).compareTo(t2.getDistanceInMeters());
+////            }
+////        });
+//
+//
+//        FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
+//                Blog.class,
+//                R.layout.incident_row,
+//                BlogViewHolder.class,
+//                mDatabase.orderByChild("location").equalTo(locationQuery)
+//        ) {
 //            @Override
-//            public int compare(Eventt1, Eventt2) {
-//                return Double.valueOf(t1.getDistanceInMeters()).compareTo(t2.getDistanceInMeters());
+//            protected void populateViewHolder(final BlogViewHolder viewHolder, final Blog model, final int position) {
+//                final String incidentKey = getRef(position).getKey();
+//
+//                viewHolder.setTitle(model.getTitle());
+//                viewHolder.setDesc(model.getDesc());
+//                viewHolder.setUsername((model.getUsername()));
+//                viewHolder.setImage(getApplicationContext(), model.getImage());
+//                viewHolder.setLocation(model.getLocation());
+//                //viewHolder.setTimestamp(model.getTimestamp());
+//                viewHolder.setReactionButton(incidentKey);
+//                model.getPhone();
+//                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
+//                        Intent incidentIntent = new Intent(MainActivity.this, IncidentActivity.class);
+//                        incidentIntent.putExtra("incident_id", incidentKey);//incident key is the id of the incident in the list
+//                        startActivity(incidentIntent);
+//                    }
+//                });
+//
+//                //Responder OnClickListener to attach a responder to the incident
+//                viewHolder.mReactionButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        confirmDialogDemo();
+////                        sendSMS();
+////                        sendLongSMS("Name is responding");
+//                        mReactionService = true;
+//
+//
+//                        final DatabaseReference newPost = mDatabaseReactions.push();
+//
+//
+//                        mDatabaseReactions.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                if (mReactionService) {
+//                                    phoneNumberSMS = model.getPhone();
+//                                    usernameSMS = model.getUsername();
+//                                    //below checks to see if the user has clicked responding to the incident
+//                                    if (dataSnapshot.child(incidentKey).hasChild(mAuth.getCurrentUser().getUid())) {
+//
+//
+//                                        //Removes the user from responding and sets reactionService to false
+//                                        mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).removeValue();
+//                                        mReactionService = false;
+//                                        sendLongSMS(usernameSMS + " is NOT responding. Their phone number is: " + phoneNumberSMS + " REPLACE phone && username uid");
+//
+//                                    } else {
+//
+////                                        newPost.child("uid").setValue(mCurrentUser.getUid());//gets the current user//below uses the user id to get the username from the databse snapshot
+////                                        newPost.child("username").setValue(dataSnapshot.child("name").getValue())
+////                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+////                                                    @Override
+////                                                    public void onComplete(@NonNull Task<Void> task) {
+////                                                        if(task.isSuccessful()){
+////                                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+////                                                        }
+////                                                    }
+////                                                });
+//                                        mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).setValue("UserResponding");
+//                                        mReactionService = false;
+//
+//
+////                                        String name =  dataSnapshot.child(mCurrentUser.getUid()).child("name").getValue().toString();//Gets current users UID
+////
+////                                        String displayName = mAuth.getCurrentUser().getDisplayName();
+//
+//
+////                                        sendLongSMS(displayName + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
+//                                        sendLongSMS(usernameSMS + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
+//
+//                                    }
+//                                }
+//                            }
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//                            }
+//                        });
+//                    }
+//                });
 //            }
-//        });
+//        };
+//        //adds users profile picture
+//        // Get userimage url.
+////                mDatabaseUsers.child(model.getUid()).child("image").addValueEventListener(new ValueEventListener() {
+////                    @Override
+////                    public void onDataChange(DataSnapshot dataSnapshot) {
+////                        String imageUrl = dataSnapshot.getValue().toString();
+////                        viewHolder.setUserimage(getApplicationContext(), imageUrl);
+////                    }
+////
+////                    @Override
+////                    public void onCancelled(DatabaseError databaseError) {
+////
+////                    }
+////                });
+//        mBlogList.setAdapter(firebaseRecyclerAdapter);
 
+        populateRecyclerView();
+    }
+
+    public void populateRecyclerView(){
+        Blog blog = null;//need to initialize
 
         FirebaseRecyclerAdapter<Blog, BlogViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Blog, BlogViewHolder>(
                 Blog.class,
@@ -546,9 +659,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             public void onClick(DialogInterface dialog, int id) {
                                 locationQuery = locationFilterText.getText().toString().trim();
 //                                final String locationFilter = locationFilterText.getText().toString().trim();
-                                startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                                startActivity(new Intent(MainActivity.this, MainActivity.class));
                               //  protected void onStart();
-
+                                populateRecyclerView();
 
                             }
                         })

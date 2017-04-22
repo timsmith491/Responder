@@ -50,6 +50,7 @@ public class WeatherActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+//        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         Location location = locationManager.getLastKnownLocation(provider);
 
         double lat = location.getLatitude();
