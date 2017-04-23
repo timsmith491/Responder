@@ -78,7 +78,9 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:src="@mipmap/ic_person_white_48dp"
-                app:srcCompat="@android:drawable/ic_dialog_info" />
+                android:visibility="invisible"/>
+                <!--app:srcCompat="@android:drawable/ic_dialog_info"-->
+
 
             <TextView
                 android:id="@+id/user_profile_name"

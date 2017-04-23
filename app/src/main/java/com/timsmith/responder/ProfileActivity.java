@@ -26,6 +26,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import static android.view.View.VISIBLE;
+
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -40,15 +42,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView mProfilePicture;
     private ImageButton mPhoneNumber;
+    private ImageView mUpdateProfile;
     private TextView mUsername, mDob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        mAuth = FirebaseAuth.getInstance();
         mUserKey = getIntent().getExtras().getString("user_id");
         Toast.makeText(ProfileActivity.this, mUserKey, Toast.LENGTH_LONG).show();
+
 
 
         //String currentUserId = mAuth.getCurrentUser().getUid();
@@ -80,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
                 viewHolder.setTitle(model.getTitle());
                 viewHolder.setDesc(model.getDesc());
                 viewHolder.setUsername((model.getUsername()));
+                viewHolder.setImage(getApplicationContext(), model.getImage());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -114,6 +119,11 @@ public class ProfileActivity extends AppCompatActivity {
         mPhoneNumber = (ImageButton) findViewById(R.id.user_phone_number);
         mUsername = (TextView) findViewById(R.id.user_profile_name);
         mDob = (TextView) findViewById(R.id.user_profile_dob);
+        mUpdateProfile = (ImageView) findViewById(R.id.drop_down_option_menu);
+
+        if (mAuth.getCurrentUser().getUid().equals(mUserKey)) {//The user that created the incident can only delete the incident
+            mUpdateProfile.setVisibility(VISIBLE);
+        }
 
         //Retrieves the users data from the database
         mDatabaseUser.child(mUserKey).addValueEventListener(new ValueEventListener() {
@@ -149,6 +159,12 @@ public class ProfileActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("Responder", "Failed to invoke call", e);
                         }
+                    }
+                });
+                mUpdateProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateProfile();
                     }
                 });
 
@@ -194,5 +210,19 @@ public class ProfileActivity extends AppCompatActivity {
             //mSelectImage.setImageBitmap(ImageBitmap.decodeSampledBitmapFromResource(getResources(), R.id.incidentImage, 200, 200));
 
         }
+    }
+
+
+
+
+    public void updateProfile(){
+
+//        mAuth.getCurrentUser().getUid();
+
+//        String newPhone = "08722222";
+//        mDatabaseUser.child(user_id).child("phone").setValue(newPhone);
+
+        Intent mainIntent = new Intent(ProfileActivity.this, SetupActivity.class);
+        startActivity(mainIntent);
     }
 }

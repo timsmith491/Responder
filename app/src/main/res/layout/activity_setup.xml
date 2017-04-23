@@ -62,7 +62,6 @@
         android:layout_width="150dp"
         app:srcCompat="@mipmap/ic_person_white_48dp"
         android:id="@+id/setupImageBtn"
-
         android:background="@drawable/button_bg_rounded_corners"
         android:scaleType="centerCrop"
         android:layout_height="150dp"

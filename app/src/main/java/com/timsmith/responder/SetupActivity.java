@@ -15,11 +15,15 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -63,14 +67,18 @@ public class SetupActivity extends AppCompatActivity {
 
         mSubmitBtn = (Button) findViewById(R.id.setupSubmitBtn);
 
+
+
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                System.out.print("Submit clicked");
                 startSetupAccount();
+
             }
         });
 
+        populateSetup();
 //////////////////////////////////////////////////////////////////////////////////////////////////////
         //final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -142,7 +150,8 @@ public class SetupActivity extends AppCompatActivity {
         final String dob = mDOBField.getText().toString().trim();
         final String user_id = mAuth.getCurrentUser().getUid();
 
-        if(!TextUtils.isEmpty(name) && mImageUri != null){
+        if(!TextUtils.isEmpty(name)){
+//        if(!TextUtils.isEmpty(name) && mImageUri != null){
 
             mProgress.setMessage("Setup Finalising");
             mProgress.show();
@@ -167,8 +176,34 @@ public class SetupActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    private void populateSetup(){
+
+        final String user_id = mAuth.getCurrentUser().getUid();
+        mDatabaseUsers.child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String user_name = (String) dataSnapshot.child("name").getValue();
+                String dob = (String) dataSnapshot.child("dob").getValue();
+                String phone = (String) dataSnapshot.child("phone").getValue();
+                String profile_picture = (String) dataSnapshot.child("image").getValue();
 
 
+                mNameField.setText(user_name);
+                mDOBField.setText(dob);
+                mPhoneField.setText(phone);
+//                Picasso.with(SetupActivity.this).load(profile_picture).into((Target) mImageUri);
+                Picasso.with(SetupActivity.this).load(profile_picture).into(mSetupImageBtn);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
