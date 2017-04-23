@@ -177,7 +177,7 @@ public class SetupActivity extends AppCompatActivity {
 
         }
     }
-
+    //populate setup fills form with current info which can then be edited
     private void populateSetup(){
 
         final String user_id = mAuth.getCurrentUser().getUid();
