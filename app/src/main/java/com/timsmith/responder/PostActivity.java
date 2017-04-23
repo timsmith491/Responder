@@ -186,7 +186,8 @@ public class PostActivity extends AppCompatActivity implements
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String cityName = addresses.get(0).getAddressLine(1);
+//            String cityName = addresses.get(0).getCountryName();
+            String cityName = addresses.get(0).getAdminArea();
 
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
