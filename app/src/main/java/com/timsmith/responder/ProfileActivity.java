@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton mPhoneNumber;
     private ImageView mUpdateProfile;
     private TextView mUsername, mDob;
+    private ImageView mProfileDeleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +121,11 @@ public class ProfileActivity extends AppCompatActivity {
         mUsername = (TextView) findViewById(R.id.user_profile_name);
         mDob = (TextView) findViewById(R.id.user_profile_dob);
         mUpdateProfile = (ImageView) findViewById(R.id.drop_down_option_menu);
+        mProfileDeleteButton = (ImageView) findViewById(R.id.delete_user);
 
         if (mAuth.getCurrentUser().getUid().equals(mUserKey)) {//The user that created the incident can only delete the incident
             mUpdateProfile.setVisibility(VISIBLE);
+            mProfileDeleteButton.setVisibility(VISIBLE);
         }
 
         //Retrieves the users data from the database
@@ -165,6 +168,12 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         updateProfile();
+                    }
+                });
+                mProfileDeleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteProfile();
                     }
                 });
 
@@ -212,9 +221,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     public void updateProfile(){
 
 //        mAuth.getCurrentUser().getUid();
@@ -224,5 +230,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent mainIntent = new Intent(ProfileActivity.this, SetupActivity.class);
         startActivity(mainIntent);
+    }
+
+    //delete a use
+    public void deleteProfile(){
+        final String user_id = mAuth.getCurrentUser().getUid();
+//        // Method to Remove Account Option
+//
+        mDatabaseUser.child(user_id).removeValue();
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+        startActivity(intent);
+
+
+
     }
 }

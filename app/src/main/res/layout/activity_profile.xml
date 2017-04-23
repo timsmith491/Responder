@@ -68,6 +68,17 @@
                 android:layout_toLeftOf="@+id/drop_down_option_menu"
                 android:background="@drawable/button_bg_rounded_corners"
                 android:src="@mipmap/ic_phone_white_36dp"/>
+
+            <ImageButton
+                android:id="@+id/delete_user"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@+id/user_phone_number"
+                android:background="@drawable/button_bg_rounded_corners"
+                android:src="@mipmap/ic_error_outline_white_36dp"
+                android:visibility="invisible"/>
             <!--android:src="@drawable/ic_action_user_add"-->
 
             <ImageView
