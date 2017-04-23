@@ -22,10 +22,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +61,7 @@ import com.timsmith.responder.chat.ChatGroups;
 import com.timsmith.responder.weather.WeatherActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_LANDMARKS;
@@ -653,11 +656,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 alertDialogBuilder.setView(promptView);
 
                 final EditText locationFilterText = (EditText) promptView.findViewById(R.id.locationFilterText);
+                final Spinner spinnerLocationText = (Spinner) promptView.findViewById(R.id.locationSpinner);
+
+                List<String> list = new ArrayList<String>();
+                list.add("Dublin");
+                list.add("County Wicklow");
+                list.add("");
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_spinner_item, list);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerLocationText.setAdapter(dataAdapter);
+
 
                 alertDialogBuilder.setCancelable(false)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                locationQuery = locationFilterText.getText().toString().trim();
+
+                                locationQuery =   spinnerLocationText.getSelectedItem().toString().trim();
+//                                locationQuery = locationFilterText.getText().toString().trim();
+
 //                                final String locationFilter = locationFilterText.getText().toString().trim();
 //                                startActivity(new Intent(MainActivity.this, MainActivity.class));
                               //  protected void onStart();
