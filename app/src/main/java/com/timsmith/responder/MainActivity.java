@@ -1067,6 +1067,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         // Blog newBlog = postSnapshot.getValue(Blog.class);
                         //Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
                         if(dataSnapshot.child("latitude").getValue()!=null) {
+                            Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
                             String latitude = (String) dataSnapshot.child("latitude").getValue();
                             String longitude = (String) dataSnapshot.child("longitude").getValue();
 //                        String title = (String) dataSnapshot.child("title").getValue();
@@ -1076,17 +1077,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             Double doubleLatitude = Double.parseDouble(latitude);
                             Double doubleLongitude = Double.parseDouble(longitude);
 
+                            long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
+                            long timeStampNow = currentTimeMillis();//current timestamp
 
-//                        long dbTimeStamp = timestamp.longValue();//gets the timestamp from the db and converts it to a long
-//                        long timeStampNow = currentTimeMillis();//current timestamp
-//
-//                        double timePassed = (timeStampNow - dbTimeStamp) / 1000 / 60 / 60;
-//                        System.out.print("Time passed result: " + timePassed);
-//
-//                        if (timePassed <= 1) {
-//                            // Create LatLng for each locations
-//                            LatLng mLatlng = new LatLng(doubleLatitude, doubleLongitude);
-//
+                            double timePassed = (timeStampNow - dbTimeStamp) / 1000 / 60 / 60;
+                            System.out.print("Time passed result: " + timePassed);
+
+                            if (timePassed <= 1) {
 //
 //
 //                            // Adds hazard location to the geofence Hashmap
@@ -1098,7 +1095,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 ////                                        MAP_ZOOM_LEVEL));
 ////                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
 //                        }
-//                        }
+                        }
                     }
                 }
                 populateGeofenceList();
