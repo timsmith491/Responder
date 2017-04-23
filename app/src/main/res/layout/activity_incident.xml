@@ -5,7 +5,7 @@
     android:id="@+id/activity_incident"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="4dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -73,12 +73,13 @@
         android:id="@+id/incidentPhoneButton"
         app:srcCompat="@mipmap/ic_phone_white_36dp"
         android:background="@drawable/button_bg_rounded_corners"
-        android:layout_below="@+id/incidentUsername"
+        android:layout_above="@+id/incidentLocationMap"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:ems="10"
         android:padding="10dp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_marginBottom="5dp" />
 
     <Button
         android:text="Incident Complete"
@@ -94,10 +95,14 @@
 
     <Button
         android:text="Locate"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/incidentLocationMap" />
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:padding="0dp"
+        android:id="@+id/incidentLocationMap"
+        android:textStyle="normal|bold" />
 
 </RelativeLayout>
