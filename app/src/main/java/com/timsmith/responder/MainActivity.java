@@ -660,6 +660,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 List<String> list = new ArrayList<String>();
                 list.add("Dublin");
+                list.add("County Dublin");
                 list.add("County Wicklow");
                 list.add("");
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
