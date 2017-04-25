@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Radius"
+        android:text="Select Geofence Radius"
         android:id="@+id/locationTextView"
         android:layout_gravity="center_horizontal"
         android:textStyle="normal|bold"
