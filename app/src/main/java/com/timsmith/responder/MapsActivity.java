@@ -1,6 +1,7 @@
 package com.timsmith.responder;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -37,7 +38,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,6 +49,7 @@ import static com.timsmith.responder.R.layout.map_incident_info;
 import static java.lang.System.currentTimeMillis;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback,GoogleMap.OnInfoWindowCloseListener, GoogleMap.OnInfoWindowClickListener {
+
 
 
     //Pins showing all defibs in greystones
@@ -109,6 +110,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Incidents");
         mHazardDatabase = FirebaseDatabase.getInstance().getReference().child("Hazards");
 
+
     }
 
     /**
@@ -134,9 +136,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             return;
         }
 
+
         mMap.setMyLocationEnabled(true);
 
+
+//        mMap.setMyLocationEnabled(true);
+
+
         map.animateCamera(zoom);
+
+
+
+
 //        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()));
         // Add some markers to the map, and add a data object to each marker.
         mBurnaby = mMap.addMarker(new MarkerOptions()
@@ -493,7 +504,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                 .position(mLatlng)
                                 .title("Incident: "+ title)
                                 .snippet("username: " + usernameIncident + " imageurl$ " + imageIncident + " Intent:£" + myParentNode)
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_responder));
                         Marker mMarker = mMap.addMarker(mMarkerOption);
 
 //                                createGeofence(mLatlng, 100);
@@ -504,7 +515,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                // Zoom map to the boundary that contains every logged location
 //                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
 //                                        MAP_ZOOM_LEVEL));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
 
                         if (mMap != null)
                             mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -532,8 +543,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                     String example = "/abc/def/ghfj.doc";
                                     System.out.println(example.substring(example.lastIndexOf("/") + 1));
 
-                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
-                                    System.out.print(imageString);
+//                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
+//                                    System.out.print(imageString);
 
                                     final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
                                     System.out.print("IntentKey " + intentKey);
@@ -541,7 +552,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                    String myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +3);
 //                                    System.out.print(myParentNode);
 
-                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
+//                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
 //                                    Picasso.with(ctx).load(imageString).into(imageView);
 
 //                                    incidentIntentButton.setOnClickListener(new View.OnClickListener() {
@@ -554,17 +565,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                        }
 //                                    });
 
-//                                    v.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//
-//                                            //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
-//                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
-//                                            incidentIntent.putExtra("incident_id", intentKey);//incident key is the id of the incident in the list
-//                                            System.out.print("Intent Parent node" + intentKey);
-//                                            startActivity(incidentIntent);
-//                                        }
-//                                    });
+                                    v.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
+                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
+                                            incidentIntent.putExtra("incident_id", intentKey);//incident key is the id of the incident in the list
+                                            System.out.print("Intent Parent node" + intentKey);
+                                            startActivity(incidentIntent);
+                                        }
+                                    });
 
 
                                     return v;
