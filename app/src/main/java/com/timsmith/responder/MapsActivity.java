@@ -4,10 +4,16 @@ package com.timsmith.responder;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -31,14 +37,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.R.attr.key;
 import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_RADIUS_IN_METERS;
 import static com.timsmith.responder.R.id.map;
+import static com.timsmith.responder.R.id.mapIncidentPic;
+import static com.timsmith.responder.R.layout.map_incident_info;
 import static java.lang.System.currentTimeMillis;
 
-public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback,GoogleMap.OnInfoWindowCloseListener, GoogleMap.OnInfoWindowClickListener {
 
 
     //Pins showing all defibs in greystones
@@ -191,6 +201,67 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        displayLocations();
         showIncidents();
         showHazards();
+
+//
+//        if (mMap != null) {
+//            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//                @Override
+//                public View getInfoWindow(Marker marker) {
+//                    return null;
+//                }
+//
+//                @Override
+//                public View getInfoContents(final Marker marker) {
+//                    View v = View.inflate(getApplicationContext(), R.layout.map_incident_info, null);
+//
+//                    ImageView imageView = (ImageView) v.findViewById(R.id.mapIncidentPic);
+//                    final TextView incidentTitleText = (TextView) v.findViewById(R.id.mapIncidentTitle);
+//                    TextView incidentLocation = (TextView) v.findViewById(R.id.mapIncidentLocation);
+//
+////
+////                    mDatabase.addChildEventListener(new ChildEventListener() {
+////                        @Override
+////                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+////                            if (dataSnapshot.hasChildren()) {
+////
+////                                //Loops through all children
+////                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+////                                    String incidentTitle = (String) dataSnapshot.child("title").getValue();
+////                                    incidentTitleText.setText(incidentTitle);
+////                                }
+////                            }
+////                        }
+////
+////                        @Override
+////                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+////
+////                        }
+////
+////                        @Override
+////                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+////
+////                        }
+////
+////                        @Override
+////                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+////
+////                        }
+////
+////                        @Override
+////                        public void onCancelled(DatabaseError databaseError) {
+////
+////                        }
+////                    });
+//
+//
+//
+//                    return v;
+//                }
+//            });
+//            mMap.setOnInfoWindowClickListener (this);
+//
+//        }
+
     }
 
     /**
@@ -373,9 +444,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     public void showIncidents() {
+
         mDatabase.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.hasChildren()) {
                     @SuppressWarnings("unchecked")
 
@@ -388,8 +460,24 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         // Blog newBlog = postSnapshot.getValue(Blog.class);
                         String latitude = (String) dataSnapshot.child("latitude").getValue();
                         String longitude = (String) dataSnapshot.child("longitude").getValue();
+                        final String title = (String) dataSnapshot.child("title").getValue();
+                        final String usernameIncident = (String) dataSnapshot.child("username").getValue();
+                        final String imageIncident = (String) dataSnapshot.child("image").getValue();
+
+//                        String key = postSnapshot.getValue().
+//                        String key = postSnapshot.aVC.getParent().getKey();
+
+//                        postSnapshot.aVB.getParent().getKey();
+                        final String myParentNode = dataSnapshot.getKey();
+                        System.out.print("Parent key" + myParentNode);
+
+
+                        System.out.print("Object key" + key);
+
                         System.out.println("Latitude: " + latitude);
                         System.out.println("Longitude: " + longitude);
+                        System.out.println("Incident Title: " + title);
+//                        Picasso.with(MapsActivity.this).load(imageIncident).into(mapIncidentPic);
 
                         Double dlatitude = Double.parseDouble(latitude);
                         Double dlongitude = Double.parseDouble(longitude);
@@ -403,7 +491,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                // Add a marker for each logged location
                         MarkerOptions mMarkerOption = new MarkerOptions()
                                 .position(mLatlng)
-                                .title("Incident")
+                                .title("Incident: "+ title)
+                                .snippet("username: " + usernameIncident + " imageurl$ " + imageIncident + " Intent:£" + myParentNode)
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.sireni_48));
                         Marker mMarker = mMap.addMarker(mMarkerOption);
 
@@ -416,6 +505,72 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,
 //                                        MAP_ZOOM_LEVEL));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 500));
+
+                        if (mMap != null)
+                            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+                                @Override
+                                public View getInfoWindow(Marker marker) {
+
+                                    return null;
+                                }
+
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
+                                @Override
+                                public View getInfoContents(final Marker marker) {
+                                    View v = View.inflate(getApplicationContext(), map_incident_info, null);
+
+                                    ImageView imageView = (ImageView) v.findViewById(mapIncidentPic);
+                                    TextView incidentTitleText = (TextView) v.findViewById(R.id.mapIncidentTitle);
+                                    TextView incidentUsernameText = (TextView) v.findViewById(R.id.mapIncidentLocation);
+                                    Button incidentIntentButton = (Button) v.findViewById(R.id.mapIncidentButton);
+//                                    ArrayList listOfMarkers = (ArrayList) dataSnapshot.getChildren();
+
+
+                                    incidentTitleText.setText(marker.getTitle());
+                                    incidentUsernameText.setText(marker.getSnippet());
+
+                                    String example = "/abc/def/ghfj.doc";
+                                    System.out.println(example.substring(example.lastIndexOf("/") + 1));
+
+                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
+                                    System.out.print(imageString);
+
+                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
+                                    System.out.print("IntentKey " + intentKey);
+
+//                                    String myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +3);
+//                                    System.out.print(myParentNode);
+
+                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
+//                                    Picasso.with(ctx).load(imageString).into(imageView);
+
+//                                    incidentIntentButton.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
+//                                            incidentIntent.putExtra("incident_id", myParentNode);//incident key is the id of the incident in the list
+//                                            System.out.print("Intent Parent node" + myParentNode);
+//                                            startActivity(incidentIntent);
+//                                        }
+//                                    });
+
+//                                    v.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//
+//                                            //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
+//                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
+//                                            incidentIntent.putExtra("incident_id", intentKey);//incident key is the id of the incident in the list
+//                                            System.out.print("Intent Parent node" + intentKey);
+//                                            startActivity(incidentIntent);
+//                                        }
+//                                    });
+
+
+                                    return v;
+
+                                }
+                            });
                     }
                 }
             }
@@ -440,8 +595,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             }
         });
-    }
+        mMap.setOnInfoWindowClickListener(this);
 
+    }
     //////////////////////////////              GEOFENCE              ///////////////////////////////////////////////////////////////
 
 
@@ -512,5 +668,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
+    @Override
+    public void onInfoWindowClose(Marker marker) {
+
     }
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     tools:context="com.timsmith.responder.PostActivity"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <ImageButton
         android:layout_width="match_parent"
@@ -99,6 +99,20 @@
         android:layout_alignTop="@+id/locationText"
         android:layout_alignEnd="@+id/descField"
         android:id="@+id/longitudeTextId" />
+
+    <Button
+        android:text="Set Geo Fence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bg_rounded_corners"
+        android:textColor="@android:color/white"
+        android:layout_centerInParent="true"
+        android:id="@+id/geoFenceSetterButton"
+        android:layout_below="@+id/locationText"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp" />
 
 
 </RelativeLayout>

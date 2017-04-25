@@ -1,6 +1,7 @@
 package com.timsmith.responder;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,13 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +63,9 @@ public class PostActivity extends AppCompatActivity implements
     private ProgressDialog mProgress;
     private Spinner mSpinTitle;
     private TextView mLocationTextView;
+    private SeekBar mSeekBar = null;
+    private Button mGeofenceButton;
+    private int mGeofenceRadius;
 
 
     private FirebaseAuth mAuth;
@@ -102,12 +109,15 @@ public class PostActivity extends AppCompatActivity implements
         mLatitudeText = (TextView) findViewById(R.id.latitudeTextId);
         mLongitudeText = (TextView) findViewById(R.id.longitudeTextId);
         mLocationTextView = (TextView) findViewById(R.id.locationText);
+        mGeofenceButton = (Button) findViewById(R.id.geoFenceSetterButton);
+        mSeekBar = (SeekBar) findViewById(R.id.geoFenceSeekBar);
 
         //mLocationButton = (Button) findViewById(R.id.locationButton);
 
         mProgress = new ProgressDialog(this);
 
         addItemsOnSpinner();
+
 
         mSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +133,9 @@ public class PostActivity extends AppCompatActivity implements
                 //mSelectImage.setImageBitmap(ImageBitmap.decodeSampledBitmapFromResource(getResources(), R.id.incidentImage, 200, 200));//Added 24/01
             }
         });
+
+
+        setSeekBar();
 
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +212,61 @@ public class PostActivity extends AppCompatActivity implements
         } else {
         }
     }
+
+    public void setSeekBar(){
+        mGeofenceButton = (Button) findViewById(R.id.geoFenceSetterButton);
+
+        mGeofenceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(PostActivity.this);
+                View promptView = layoutInflater.inflate(R.layout.geofence_radius_dialog, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(PostActivity.this);
+                alertDialogBuilder.setView(promptView);
+
+                final SeekBar seekBarResult = (SeekBar) promptView.findViewById(R.id.geoFenceSeekBar);
+
+                seekBarResult.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    int progressChanged = 0;
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        progressChanged = progress;
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        Toast.makeText(PostActivity.this, "Radius: " + progressChanged,
+                                Toast.LENGTH_SHORT).show();
+                        mGeofenceRadius = progressChanged;
+                    }
+                });
+
+                alertDialogBuilder.setCancelable(false)
+                        .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                System.out.print(mGeofenceRadius);
+
+                                Toast.makeText(PostActivity.this, "Geofence Radius: " + mGeofenceRadius + " KM", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+
+            AlertDialog alert = alertDialogBuilder.create();
+            alert.show();
+        }
+    });
+}
 
 
     public void addItemsOnSpinner() {
