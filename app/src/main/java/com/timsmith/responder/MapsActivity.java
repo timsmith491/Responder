@@ -37,7 +37,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -532,16 +531,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                     String example = "/abc/def/ghfj.doc";
                                     System.out.println(example.substring(example.lastIndexOf("/") + 1));
 
-                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
-                                    System.out.print(imageString);
-
-                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
-                                    System.out.print("IntentKey " + intentKey);
-
+//                                    String imageString = marker.getSnippet().substrin(marker.getSnippet().lastIndexOf("$") + 2);
+//                                    System.out.print(imageString);
+//
+//                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
+//                                    System.out.print("IntentKey " + intentKey);
+//
+                                    //myParentNode is the one being used. update the View.onClickListener************
 //                                    String myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +3);
 //                                    System.out.print(myParentNode);
 
-                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
+//                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
 //                                    Picasso.with(ctx).load(imageString).into(imageView);
 
 //                                    incidentIntentButton.setOnClickListener(new View.OnClickListener() {

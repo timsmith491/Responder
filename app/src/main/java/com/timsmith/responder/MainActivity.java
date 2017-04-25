@@ -385,16 +385,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * if the user hasn't yet added geofences. The Remove Geofences button is enabled if the
      * user has added geofences.
      */
+//    private void setButtonsEnabledState() {
+//        if (mGeofencesAdded) {
+//            mAddGeofencesButton.setEnabled(false);
+//            mAddGeofencesButton.setVisibility(View.INVISIBLE);
+//            mRemoveGeofencesButton.setEnabled(true);
+//            mRemoveGeofencesButton.setVisibility(View.VISIBLE);
+//        } else {
+//            mAddGeofencesButton.setEnabled(true);
+//            mAddGeofencesButton.setVisibility(View.VISIBLE);
+//            mRemoveGeofencesButton.setEnabled(false);
+//            mRemoveGeofencesButton.setVisibility(View.INVISIBLE);
+//
+//        }
+//    }
     private void setButtonsEnabledState() {
         if (mGeofencesAdded) {
             mAddGeofencesButton.setEnabled(false);
+            mAddGeofencesButton.setVisibility(View.INVISIBLE);
             mRemoveGeofencesButton.setEnabled(true);
+            mRemoveGeofencesButton.setVisibility(View.VISIBLE);
         } else {
             mAddGeofencesButton.setEnabled(true);
+            mAddGeofencesButton.setVisibility(View.VISIBLE);
             mRemoveGeofencesButton.setEnabled(false);
+            mRemoveGeofencesButton.setVisibility(View.INVISIBLE);
+
         }
     }
-
 
 
     @Override

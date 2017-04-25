@@ -26,30 +26,44 @@
         android:id="@+id/floatHazard"
         android:clickable="true"/>
 
-    <GridLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content">
+        <!--<LinearLayout>-->
         <Button
+            android:background="@drawable/button_bg_square_corners"
             android:text="Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/add_geofences_button"
-            android:onClick="addGeofencesButtonHandler"/>
+
+            android:layout_weight="1"/>
+        <!--android:onClick="setButtonsEnabledState"-->
+
 
         <Button
+            android:background="@drawable/button_bg_square_corners"
             android:text="Remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/remove_geofences_button"
-            android:onClick="removeGeofencesButtonHandler"
+            android:layout_columnWeight="1"
             />
-        <Button
-            android:text="Location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/select_location"
-            />
-    </GridLayout>
+        <!--android:onClick="removeGeofencesButtonHandler"-->
+
+        <!--</LinearLayout>-->
+        <!--<LinearLayout>-->
+            <Button
+                android:background="@drawable/button_bg_square_corners"
+                android:textColor="@android:color/white"
+                android:text="Filter Location"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/select_location"/>
+        <!--</LinearLayout>-->
+    </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>
 
