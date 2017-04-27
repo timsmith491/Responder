@@ -32,7 +32,10 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
-        <activity android:name=".PostActivity" />
+        <activity
+            android:name=".PostActivity"
+            android:label="@string/title_activity_post"
+            />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SetupActivity" />

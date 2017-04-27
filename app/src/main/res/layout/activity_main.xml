@@ -28,13 +28,18 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:columnCount="4">
         <Button
             android:text="Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/add_geofences_button"
-            android:onClick="addGeofencesButtonHandler"/>
+            android:onClick="addGeofencesButtonHandler"
+            android:layout_columnSpan="1"
+            android:background="@drawable/button_bg_square_corners"
+            android:textColor="@android:color/white"
+            />
 
         <Button
             android:text="Remove"
@@ -42,12 +47,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/remove_geofences_button"
             android:onClick="removeGeofencesButtonHandler"
+            android:layout_columnSpan="1"
+            android:background="@drawable/button_bg_square_corners"
+            android:textColor="@android:color/white"
             />
         <Button
             android:text="Location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/select_location"
+            android:layout_columnSpan="1"
+            android:background="@drawable/button_bg_square_corners"
+            android:textColor="@android:color/white"
             />
     </GridLayout>
 
