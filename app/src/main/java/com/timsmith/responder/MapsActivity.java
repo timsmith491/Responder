@@ -1,6 +1,7 @@
 package com.timsmith.responder;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    String myParentNode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -478,7 +479,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                        String key = postSnapshot.aVC.getParent().getKey();
 
 //                        postSnapshot.aVB.getParent().getKey();
-                        final String myParentNode = dataSnapshot.getKey();
+                        myParentNode = dataSnapshot.getKey();
                         System.out.print("Parent key" + myParentNode);
 
 
@@ -532,7 +533,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                     ImageView imageView = (ImageView) v.findViewById(mapIncidentPic);
                                     TextView incidentTitleText = (TextView) v.findViewById(R.id.mapIncidentTitle);
                                     TextView incidentUsernameText = (TextView) v.findViewById(R.id.mapIncidentLocation);
-                                    Button incidentIntentButton = (Button) v.findViewById(R.id.mapIncidentButton);
 //                                    ArrayList listOfMarkers = (ArrayList) dataSnapshot.getChildren();
 
 
@@ -545,11 +545,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
 //                                    System.out.print(imageString);
 //
-//                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
+//                                    String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
 //                                    System.out.print("IntentKey " + intentKey);
 
-//                                    String myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +3);
-//                                    System.out.print(myParentNode);
+                                     myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +1);
+                                    System.out.print("Incident node" + myParentNode);
 
 //                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
 //                                    Picasso.with(ctx).load(imageString).into(imageView);
@@ -563,7 +563,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                            startActivity(incidentIntent);
 //                                        }
 //                                    });
-
 //                                    v.setOnClickListener(new View.OnClickListener() {
 //                                        @Override
 //                                        public void onClick(View v) {
@@ -575,13 +574,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                            startActivity(incidentIntent);
 //                                        }
 //                                    });
-
-
                                     return v;
 
                                 }
                             });
                     }
+                    //mMap.setOnInfoWindowClickListener(this);
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
+                            incidentIntent.putExtra("incident_id", myParentNode);
+                            startActivity(incidentIntent);
+
+                        }
+                    });
                 }
             }
 
@@ -605,7 +612,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             }
         });
-        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnInfoWindowClickListener(this);
 
     }
     //////////////////////////////              GEOFENCE              ///////////////////////////////////////////////////////////////
