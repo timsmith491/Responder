@@ -1,7 +1,6 @@
 package com.timsmith.responder;
 
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
@@ -545,9 +544,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 //                                    String imageString = marker.getSnippet().substring(marker.getSnippet().lastIndexOf("$") + 2);
 //                                    System.out.print(imageString);
-
-                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
-                                    System.out.print("IntentKey " + intentKey);
+//
+//                                    final String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
+//                                    System.out.print("IntentKey " + intentKey);
 
 //                                    String myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +3);
 //                                    System.out.print(myParentNode);
@@ -565,17 +564,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                        }
 //                                    });
 
-                                    v.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
-                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
-                                            incidentIntent.putExtra("incident_id", intentKey);//incident key is the id of the incident in the list
-                                            System.out.print("Intent Parent node" + intentKey);
-                                            startActivity(incidentIntent);
-                                        }
-                                    });
+//                                    v.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//
+//                                            //Toast.makeText(MainActivity.this, incidentKey, Toast.LENGTH_LONG).show();
+//                                            Intent incidentIntent = new Intent(MapsActivity.this, IncidentActivity.class);
+//                                            incidentIntent.putExtra("incident_id", intentKey);//incident key is the id of the incident in the list
+//                                            System.out.print("Intent Parent node" + intentKey);
+//                                            startActivity(incidentIntent);
+//                                        }
+//                                    });
 
 
                                     return v;

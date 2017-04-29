@@ -55,7 +55,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".Video" />
-        <activity android:name=".IncidentActivity" />
+        <activity android:name=".IncidentActivity"
+            android:label="@string/title_activity_incident"/>
 
         <!--
            Set custom default icon. This is used when no icon is set for incoming notification messages.

@@ -76,7 +76,7 @@
                 android:textStyle="normal|bold" />
 
             <TextView
-                android:text="Time Stamp"
+                android:text="11:58"
                 android:layout_toRightOf="@id/post_username"
                 android:id="@+id/time_stamp"
                 android:textStyle="normal|bold"

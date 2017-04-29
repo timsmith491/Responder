@@ -706,7 +706,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mCurrentUser = mAuth.getCurrentUser();//Current user that is logged in
 
 //        if (mSharedPreferences.getBoolean("firstrun", true)) {
-//            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
 //             mSharedPreferences.edit().putBoolean("firstrun", false).commit();
 //        }
 
@@ -757,7 +757,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                                     }
                                                 });
                                         newHazard.child("timestamp").setValue(timeStamp);
-                                        Snackbar.make(v, "Hazard Logged", Snackbar.LENGTH_LONG).setAction("Action", null).setDuration(3500).show();
+                                        Snackbar.make(v, "Hazard Logged", Snackbar.LENGTH_LONG).setAction("Action", null).setDuration(4000).show();
                                         showHazards();
                                     }
 
