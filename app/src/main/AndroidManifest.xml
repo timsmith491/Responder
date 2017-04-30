@@ -35,6 +35,7 @@
         <activity
             android:name=".PostActivity"
             android:label="@string/title_activity_post"
+            android:parentActivityName=".MainActivity"
             />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
@@ -53,10 +54,17 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".Video" />
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".Video"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/title_activity_video"/>
         <activity android:name=".IncidentActivity"
-            android:label="@string/title_activity_incident"/>
+            android:label="@string/title_activity_incident"
+            android:parentActivityName=".MainActivity"
+
+            />
 
         <!--
            Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -73,8 +81,12 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
 
-        <activity android:name=".ListUserActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ListUserActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/title_activity_users"/>
+        <activity android:name=".ProfileActivity"
+            android:parentActivityName=".ListUserActivity"
+            android:label="@string/title_activity_profile"/>
 
         <service android:name=".GeoFence.GeofenceTransitionsIntentService" />
         <service android:name=".fcm.MyFirebaseMessagingService">
@@ -94,7 +106,7 @@
         <activity
             android:name=".weather.WeatherActivity"
             android:label="@string/title_activity_weather"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity android:name=".chat.ChatGroups"></activity>
         <activity android:name=".chat.ChatRoom"></activity>
 

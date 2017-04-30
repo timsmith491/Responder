@@ -3,7 +3,10 @@
     <string name="title_activity_maps">Map</string>
     <color name="black">#000000</color>
     <string name="title_activity_post">Incident</string>
-    <string name="title_activity_incident">Weather</string>
+    <string name="title_activity_incident">Incident</string>
+    <string name="title_activity_video">Info Video</string>
+    <string name="title_activity_users">Users</string>
+    <string name="title_activity_profile">Profile</string>
 
     <!-- Buttons strings -->
     <string name="add_geofences">Add geofences</string>
