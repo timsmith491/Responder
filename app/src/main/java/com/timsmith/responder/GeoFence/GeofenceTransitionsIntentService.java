@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -149,7 +150,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 .setContentTitle(notificationDetails)
                 .setContentText(getString(R.string.geofence_transition_notification_text))
                 .setContentIntent(notificationPendingIntent)
-                .setLights(Color.CYAN, 1000, 500);
+                .setLights(Color.CYAN, 1000, 500)
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
 
         // Dismiss notification once the user touches it.
         builder.setAutoCancel(true);
