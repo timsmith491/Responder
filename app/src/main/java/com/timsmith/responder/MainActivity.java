@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -213,6 +214,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
 
         mSharedPreferences = getSharedPreferences("com.timsmith.responder", MODE_PRIVATE);/////////////
+
+
+//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        if(!mSharedPreferences.getBoolean("firstrun", false)){
+//
+//            SharedPreferences.Editor editor = mSharedPreferences.edit();
+//            editor.putBoolean("firstrun", true);
+//            editor.commit();
+//        }
 
         setButtonsEnabledState();
 
@@ -705,8 +715,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();//Current user that is logged in
 
-//        if (mSharedPreferences.getBoolean("firstrun", true)) {
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(mSharedPreferences.getBoolean("firstrun", false)){
             mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean("firstrun", true);
+            editor.commit();
+        }
+
+
+//        if (mSharedPreferences.getBoolean("firstrun", true)) {
+//            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
 //             mSharedPreferences.edit().putBoolean("firstrun", false).commit();
 //        }
 

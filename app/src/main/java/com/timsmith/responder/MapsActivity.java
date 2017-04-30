@@ -503,7 +503,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         MarkerOptions mMarkerOption = new MarkerOptions()
                                 .position(mLatlng)
                                 .title("Incident: "+ title)
-                                .snippet("username: " + usernameIncident + " imageurl$ " + imageIncident + " Intent:£" + myParentNode)
+                                .snippet("Username: " + usernameIncident + " \nIntent:£" + myParentNode)
+//                                .snippet("username: " + usernameIncident + " imageurl$ " + imageIncident + " Intent:£" + myParentNode)
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_responder));
                         Marker mMarker = mMap.addMarker(mMarkerOption);
 
