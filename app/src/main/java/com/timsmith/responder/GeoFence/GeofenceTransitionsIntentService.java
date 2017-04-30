@@ -140,11 +140,11 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
         // Define the notification settings.
-        builder.setSmallIcon(R.drawable.quantum_ic_play_arrow_grey600_48)
+        builder.setSmallIcon(R.mipmap.ic_warning_white_24dp)
                 // In a real app, you may want to use a library like Volley
                 // to decode the Bitmap.
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        R.drawable.quantum_ic_play_arrow_grey600_48))
+                        R.mipmap.ic_launcher_responder))
                 .setColor(Color.RED)
 
                 .setContentTitle(notificationDetails)
