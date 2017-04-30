@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      * Used to persist application state about whether geofences were added.
      */
-    private SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences, mSharedPreferencesUid;
     // Buttons for kicking off the process of adding or removing geofences.
     private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
@@ -716,17 +715,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mCurrentUser = mAuth.getCurrentUser();//Current user that is logged in
 
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(mSharedPreferences.getBoolean("firstrun", false)){
-            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
-            SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.putBoolean("firstrun", true);
-            editor.commit();
-        }
+//        mSharedPreferencesUid = PreferenceManager.getDefaultSharedPreferences(this);
+//        if(!mSharedPreferencesUid.getBoolean("firstrun", true)){
+//            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+//            SharedPreferences.Editor editor = mSharedPreferencesUid.edit();
+//            editor.putBoolean("firstrun", false);
+//            editor.commit();
+//        }
 
 
 //        if (mSharedPreferences.getBoolean("firstrun", true)) {
-//            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
+            mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());//Gets current users UID
 //             mSharedPreferences.edit().putBoolean("firstrun", false).commit();
 //        }
 

@@ -90,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    String myParentNode = "";
+    private String myParentNode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,7 +382,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                         System.out.println("Hazards Latitude: " + latitude);
                         System.out.println("Hazards Longitude: " + longitude);
 
-
+//                        myParentNode = dataSnapshot.getKey();
+//                        System.out.print("Parent key" + myParentNode);
 
                         Double doubleLatitude = Double.parseDouble(latitude);
                         Double doubleLongitude = Double.parseDouble(longitude);
@@ -549,8 +550,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //                                    String intentKey = marker.getSnippet().substring(marker.getSnippet().indexOf("£") + 1);
 //                                    System.out.print("IntentKey " + intentKey);
 
-                                     myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +1);
-                                    System.out.print("Incident node" + myParentNode);
+//                                    myParentNode = marker.getSnippet().substring(marker.getSnippet().indexOf("£") +1);
+//                                    System.out.print("Incident node" + myParentNode);
 
 //                                    Picasso.with(MapsActivity.this).load(imageString).into(imageView);
 //                                    Picasso.with(ctx).load(imageString).into(imageView);
