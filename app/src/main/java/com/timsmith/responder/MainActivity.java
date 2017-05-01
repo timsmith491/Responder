@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         showHazards();
+        showIncidentFences();
         hazardFunction();
         locationAreaSetter();
         checkUserExist();
@@ -1160,6 +1161,59 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
                 populateGeofenceList();
             }}
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void showIncidentFences() {
+        mDatabase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.hasChildren()) {
+
+                    //Loops through all children
+                    for (DataSnapshot p : dataSnapshot.getChildren()) {
+                        // Blog newBlog = postSnapshot.getValue(Blog.class);
+                        //Long timestamp = (Long) dataSnapshot.child("timestamp").getValue();
+                        if(dataSnapshot.child("latitude").getValue()!=null) {
+
+                            String latitude = (String) dataSnapshot.child("latitude").getValue();
+                            String longitude = (String) dataSnapshot.child("longitude").getValue();
+                            String title = (String) dataSnapshot.child("title").getValue();
+//                        String title = (String) dataSnapshot.child("title").getValue();
+                            System.out.println("Main class Hazards Latitude Error: " + latitude);
+                            System.out.println("Main class Hazards Longitude Error: " + longitude);
+
+                            Double doubleLatitude = Double.parseDouble(latitude);
+                            Double doubleLongitude = Double.parseDouble(longitude);
+
+                               // Adds hazard location to the geofence Hashmap
+                                GEOFENCE_LANDMARKS.put(title, new LatLng(doubleLatitude, doubleLongitude));
+                                System.out.println(GEOFENCE_LANDMARKS.toString() + "Incident geofence");
+                            }
+                        }
+                    }
+                    populateGeofenceList();
+                }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
