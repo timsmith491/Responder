@@ -6,19 +6,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Location to View Incidents"
+        android:text="Filter Incidents"
         android:id="@+id/locationTextView"
         android:layout_gravity="center_horizontal"
         android:textStyle="normal|bold"
         android:textColor="@color/colorPrimary"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textAlignment="center" />
 
-    <EditText
-        android:id="@+id/locationFilterText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Location"
-        android:padding="10dp" />
+    <!--<EditText-->
+        <!--android:id="@+id/locationFilterText"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Enter Location"-->
+        <!--android:padding="10dp" />-->
 
     <Spinner
         android:layout_width="match_parent"

@@ -676,13 +676,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                 alertDialogBuilder.setView(promptView);
 
-                final EditText locationFilterText = (EditText) promptView.findViewById(R.id.locationFilterText);
                 final Spinner spinnerLocationText = (Spinner) promptView.findViewById(R.id.locationSpinner);
 
                 List<String> list = new ArrayList<String>();
-                list.add("Dublin");
                 list.add("County Dublin");
                 list.add("County Wicklow");
+                list.add("County Kildare");
+                list.add("County Meath");
                 list.add("");
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
                         android.R.layout.simple_spinner_item, list);
