@@ -506,7 +506,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                                 .title("Incident: "+ title)
                                 .snippet("Username: " + usernameIncident + " \nIntent:£" + myParentNode)
 //                                .snippet("username: " + usernameIncident + " imageurl$ " + imageIncident + " Intent:£" + myParentNode)
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_responder));
+                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_person_pin_circle_48dp));
                         Marker mMarker = mMap.addMarker(mMarkerOption);
 
 //                                createGeofence(mLatlng, 100);
