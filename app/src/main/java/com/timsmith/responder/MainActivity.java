@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,8 +62,10 @@ import com.timsmith.responder.GeoFence.GeofenceTransitionsIntentService;
 import com.timsmith.responder.chat.ChatGroups;
 import com.timsmith.responder.weather.WeatherActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.timsmith.responder.GeoFence.Constants.GEOFENCE_LANDMARKS;
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      * Used to persist application state about whether geofences were added.
      */
-    private SharedPreferences mSharedPreferences, mSharedPreferencesUid;
+    private SharedPreferences mSharedPreferences, mSharedPreferencesUid, mSharedPreferencesLocation;
     // Buttons for kicking off the process of adding or removing geofences.
     private Button mAddGeofencesButton;
     private Button mRemoveGeofencesButton;
@@ -182,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mDatabase.keepSynced(true);
         mHazardDatabase.keepSynced(true);
 
+        locationAreaSetter();
         mBlogList = (RecyclerView) findViewById(R.id.incident_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -196,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         showHazards();
         showIncidentFences();
         hazardFunction();
-        locationAreaSetter();
+
         checkUserExist();
 
         mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
@@ -209,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Retrieve an instance of the SharedPreferences object.
         mSharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME,
                 MODE_PRIVATE);
+
+        mSharedPreferencesLocation = getSharedPreferences(locationQuery, MODE_PRIVATE);
 
         // Get the value of mGeofencesAdded from SharedPreferences. Set to false as a default.
         mGeofencesAdded = mSharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
@@ -413,7 +420,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         //Google Location////////////////////////////////////////////////////////////////////////////////////////////////
         mGoogleApiClient.connect();
-
         mAuth.addAuthStateListener(mAuthListener);//sets the authentication listener on
 
 
@@ -655,6 +661,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mBlogList.setAdapter(firebaseRecyclerAdapter);
     }
 
+
+
     public void locationAreaSetter(){
         mLocationButton = (Button) findViewById(R.id.select_location);
         mLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -684,6 +692,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             public void onClick(DialogInterface dialog, int id) {
 
                                 locationQuery =   spinnerLocationText.getSelectedItem().toString().trim();
+
+                                SharedPreferences.Editor editor = mSharedPreferencesLocation.edit();
+                                editor.putString("location", locationQuery);
+                                editor.commit();
 //                                locationQuery = locationFilterText.getText().toString().trim();
 
 //                                final String locationFilter = locationFilterText.getText().toString().trim();
@@ -1069,6 +1081,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (mLastLocation != null) {
             mLatitudeText = String.valueOf(mLastLocation.getLatitude());
             mLongitudeText = String.valueOf(mLastLocation.getLongitude());
+
+            Double lat = mLastLocation.getLatitude();
+            Double lon = mLastLocation.getLongitude();
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(lat, lon, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String cityName = addresses.get(0).getAdminArea();
+            locationQuery = cityName;
         }
     }
 
