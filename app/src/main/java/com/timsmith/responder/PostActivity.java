@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.timsmith.responder.R.id.spinner;
+import static java.lang.System.currentTimeMillis;
 
 
 public class PostActivity extends AppCompatActivity implements
@@ -305,6 +306,7 @@ public class PostActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     final Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    final long timeStamp = currentTimeMillis();
 
                     final DatabaseReference newPost = mDatabase.push();
 
@@ -321,6 +323,7 @@ public class PostActivity extends AppCompatActivity implements
                             newPost.child("longitude").setValue(longitude);
                             newPost.child("location").setValue(cityName);
                             newPost.child("uid").setValue(mCurrentUser.getUid());
+                            newPost.child("timestamp").setValue(timeStamp);
 
 //                            Map<String,Object> checkoutData=new HashMap<>();
 //                            checkoutData.put("time",ServerValue.TIMESTAMP);

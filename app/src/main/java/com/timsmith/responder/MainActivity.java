@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 viewHolder.setUsername((model.getUsername()));
                 viewHolder.setImage(getApplicationContext(), model.getImage());
                 viewHolder.setLocation(model.getLocation());
-                //viewHolder.setTimestamp(model.getTimestamp());
+                viewHolder.setTimestamp(model.getTimestamp());
                 viewHolder.setReactionButton(incidentKey);
                 model.getPhone();
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
@@ -895,10 +895,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
 
-//        public void setTimestamp(Long timestamp){
-//            TextView time_stamp = (TextView) mView.findViewById(R.id.time_stamp);
-//            time_stamp.setText(timestamp);
-//        }
+        public void setTimestamp(Long timestamp){
+            TextView time_stamp = (TextView) mView.findViewById(R.id.time_stamp);
+//            time_stamp.setText((int) timestamp.longValue());
+
+//            String x =String.valueOf(timestamp);
+//            long milliSeconds= Long.parseLong(x);
+//            SimpleDateFormat formatter = new  SimpleDateFormat("dd/MM/yyyy");
+//            formatter.format(new Date(milliSeconds));
+
+
+//            String dateString = formatter.format(new Date(timestamp));
+//            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//            long milliSeconds= Long.parseLong(x);
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTimeInMillis(milliSeconds);
+//            System.out.println(formatter.format(calendar.getTime()));
+//            String dateString = formatter.format(calendar);
+//            String incidentTime = String.valueOf(timestamp);
+
+
+//            time_stamp.setText(dateString.toString());
+            time_stamp.setText(String.valueOf(timestamp));
+        }
 
         //set user
 //        public void setUserimage(Context context, String imageUrl) {
