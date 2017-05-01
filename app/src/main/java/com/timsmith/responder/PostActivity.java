@@ -45,12 +45,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import static com.timsmith.responder.R.id.spinner;
-import static java.lang.System.currentTimeMillis;
 
 
 public class PostActivity extends AppCompatActivity implements
@@ -306,8 +307,9 @@ public class PostActivity extends AppCompatActivity implements
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     final Uri downloadUri = taskSnapshot.getDownloadUrl();
-                    final long timeStamp = currentTimeMillis();
-
+//                    final long timeStamp = currentTimeMillis();
+//                    final String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                    final String timeStamp = new SimpleDateFormat("HH:mm - dd.MM.yy").format(new Date());
                     final DatabaseReference newPost = mDatabase.push();
 
 
