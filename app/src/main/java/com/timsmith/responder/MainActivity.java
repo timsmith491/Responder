@@ -598,11 +598,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (mReactionService) {
+
+//                                    mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
+//                                    mCurrentUser.getDisplayName();
+
                                     phoneNumberSMS = model.getPhone();
                                     usernameSMS = model.getUsername();
                                     //below checks to see if the user has clicked responding to the incident
                                     if (dataSnapshot.child(incidentKey).hasChild(mAuth.getCurrentUser().getUid())) {
-
 
                                         //Removes the user from responding and sets reactionService to false
                                         mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).removeValue();
