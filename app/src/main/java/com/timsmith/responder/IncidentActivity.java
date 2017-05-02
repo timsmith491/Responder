@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.timsmith.responder.chat.ChatGroups;
 
 public class IncidentActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class IncidentActivity extends AppCompatActivity {
     private TextView mIncidentDetailTitle;
     private TextView mIncidentDetailDesc;
     private TextView mIncidentDetailUsername;
-    private ImageButton mIncidentDetailPhone;
+    private ImageButton mIncidentDetailPhone, mIncidentMessageButton;
     private Button mIncidentRemove;
     private Button mIncidentLocation;
 
@@ -57,6 +58,7 @@ public class IncidentActivity extends AppCompatActivity {
         mIncidentDetailPhone = (ImageButton) findViewById(R.id.incidentPhoneButton);
         mIncidentRemove = (Button) findViewById(R.id.deleteIncidentBtn);
         mIncidentLocation = (Button) findViewById(R.id.incidentLocationMap);
+        mIncidentMessageButton = (ImageButton) findViewById(R.id.chatButton);
 
 
         mIncidentDetailDesc.setMovementMethod(new ScrollingMovementMethod());//allows the description to scroll
@@ -144,7 +146,7 @@ public class IncidentActivity extends AppCompatActivity {
 //
 //                        //http://stackoverflow.com/questions/41342880/android-phone-call-not-working
 //
-//                    }
+//
 //                }
 //            });
 
@@ -161,6 +163,14 @@ public class IncidentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mDatabase.child(mIncidentKey).removeValue();
                 Intent intent = new Intent(IncidentActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mIncidentMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IncidentActivity.this, ChatGroups.class);
                 startActivity(intent);
             }
         });
