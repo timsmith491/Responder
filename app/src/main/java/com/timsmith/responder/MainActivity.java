@@ -600,6 +600,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 if (mReactionService) {
 
 //                                    mDatabaseUser = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
+//                                    FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUser.getUid());
 //                                    mCurrentUser.getDisplayName();
 
                                     phoneNumberSMS = model.getPhone();
@@ -610,7 +611,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                         //Removes the user from responding and sets reactionService to false
                                         mDatabaseReactions.child(incidentKey).child(mAuth.getCurrentUser().getUid()).removeValue();
                                         mReactionService = false;
-                                        sendLongSMS(usernameSMS + " is NOT responding. Their phone number is: " + phoneNumberSMS + " REPLACE phone && username uid");
+                                        sendLongSMS(usernameSMS + " is NOT responding. Their phone number is: " + phoneNumberSMS + " .");
 
                                     } else {
 
@@ -634,7 +635,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
 //                                        sendLongSMS(displayName + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
-                                        sendLongSMS(usernameSMS + " is responding. Their phone number is:" + phoneNumberSMS + " REPLACE phone && username uid");
+                                        sendLongSMS(usernameSMS + " is responding. Their phone number is:" + phoneNumberSMS + " .");
 
                                     }
                                 }
